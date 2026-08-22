@@ -29,3 +29,29 @@ export async function GET(req: NextRequest) {
 
   return apiSuccess(blocks);
 }
+
+// POST /api/workblocks
+export async function POST(req: NextRequest) {
+  const session = await requireAuth(req);
+  const { date, startTime, endTime, category, description } = await req.json();
+
+  if (!startTime || !endTime || !category || !description) {
+    return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
+  }
+
+  const blockDate = date ? new Date(date) : new Date();
+  blockDate.setHours(0, 0, 0, 0);
+
+  const newBlock = await prisma.workBlock.create({
+    data: {
+      employeeId: session.userId,
+      date: blockDate,
+      startTime,
+      endTime,
+      category,
+      description,
+    },
+  });
+
+  return apiSuccess(newBlock);
+}
