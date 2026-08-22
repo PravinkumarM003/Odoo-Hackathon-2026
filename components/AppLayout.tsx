@@ -113,11 +113,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!user) return;
+    // Fetch once on mount — client cache handles subsequent navigations
     fetch("/api/notifications", { credentials: "include" })
       .then(r => r.json())
       .then((ns: Array<{ read: boolean }>) => setUnread(ns.filter(n => !n.read).length))
       .catch(() => {});
-  }, [user, pathname]);
+  }, [user]); // ← removed pathname dep: no longer re-fetches on every nav
 
   // Current time display
   const [time, setTime] = useState(new Date());

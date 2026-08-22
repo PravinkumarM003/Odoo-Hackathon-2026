@@ -3,73 +3,54 @@ import { prisma } from "@/lib/prisma";
 import { requireHR, apiSuccess } from "@/lib/guards";
 
 // GET /api/hr/action-center
-// Live computed dashboard for HR — cheap queries, high demo value
+// Live computed dashboard for HR — parallelized queries, HTTP cache 60s
 export async function GET(req: NextRequest) {
   await requireHR(req);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today.getTime() + 86400000);
-
-  // 1. Pending leave count
-  const pendingLeaveCount = await prisma.leaveRequest.count({
-    where: { status: "PENDING" },
-  });
-
-  // 2. Pending leave requests (for list)
-  const pendingLeaves = await prisma.leaveRequest.findMany({
-    where: { status: "PENDING" },
-    include: {
-      employee: {
-        include: { user: { select: { name: true, employeeId: true } } },
-      },
-    },
-    orderBy: { createdAt: "asc" },
-    take: 5,
-  });
-
-  // 3. Employees who checked in but haven't checked out (working late / forgot)
-  const checkedInWithoutOut = await prisma.attendance.findMany({
-    where: {
-      date: { gte: today, lt: tomorrow },
-      checkIn: { not: null },
-      checkOut: null,
-    },
-    include: {
-      employee: {
-        include: { user: { select: { name: true, employeeId: true } } },
-      },
-    },
-  });
-
-  // 4. Employees who haven't checked in today (absent so far)
-  const allEmployees = await prisma.user.findMany({
-    where: { role: "EMPLOYEE" },
-    select: { id: true, name: true, employeeId: true },
-  });
-
-  const checkedInIds = new Set(
-    (
-      await prisma.attendance.findMany({
-        where: { date: { gte: today, lt: tomorrow }, checkIn: { not: null } },
-        select: { employeeId: true },
-      })
-    ).map((a) => a.employeeId)
-  );
-
-  const notCheckedIn = allEmployees.filter((e) => !checkedInIds.has(e.id));
-
-  // 5. Summary stats (last 30 days)
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-  const totalAttendance = await prisma.attendance.count({
-    where: { date: { gte: thirtyDaysAgo }, checkIn: { not: null } },
-  });
+  // Run ALL DB queries in parallel — was sequential, now takes max(slowest) instead of sum(all)
+  const [
+    pendingLeaves,
+    checkedInWithoutOut,
+    allEmployees,
+    todayCheckedInIds,
+    totalAttendance,
+    totalEmployeeCount,
+  ] = await Promise.all([
+    prisma.leaveRequest.findMany({
+      where: { status: "PENDING" },
+      include: {
+        employee: { include: { user: { select: { name: true, employeeId: true } } } },
+      },
+      orderBy: { createdAt: "asc" },
+      take: 5,
+    }),
+    prisma.attendance.findMany({
+      where: { date: { gte: today, lt: tomorrow }, checkIn: { not: null }, checkOut: null },
+      include: { employee: { include: { user: { select: { name: true, employeeId: true } } } } },
+    }),
+    prisma.user.findMany({
+      where: { role: "EMPLOYEE" },
+      select: { id: true, name: true, employeeId: true },
+    }),
+    prisma.attendance.findMany({
+      where: { date: { gte: today, lt: tomorrow }, checkIn: { not: null } },
+      select: { employeeId: true },
+    }),
+    prisma.attendance.count({
+      where: { date: { gte: thirtyDaysAgo }, checkIn: { not: null } },
+    }),
+    prisma.user.count({ where: { role: "EMPLOYEE" } }),
+  ]);
 
-  const totalEmployeeCount = await prisma.user.count({ where: { role: "EMPLOYEE" } });
+  const checkedInIds = new Set(todayCheckedInIds.map((a) => a.employeeId));
+  const notCheckedIn = allEmployees.filter((e) => !checkedInIds.has(e.id));
 
-  // Working days in last 30 days (approx — exclude weekends)
   let workingDays = 0;
   for (let i = 0; i < 30; i++) {
     const d = new Date();
@@ -83,8 +64,8 @@ export async function GET(req: NextRequest) {
       ? Math.round((totalAttendance / (workingDays * totalEmployeeCount)) * 100)
       : 0;
 
-  return apiSuccess({
-    pendingLeaveCount,
+  const response = apiSuccess({
+    pendingLeaveCount: pendingLeaves.length,
     pendingLeaves: pendingLeaves.map((l) => ({
       id: l.id,
       employeeName: l.employee.user.name,
@@ -109,8 +90,12 @@ export async function GET(req: NextRequest) {
     stats: {
       totalEmployees: totalEmployeeCount,
       attendanceRate,
-      pendingLeaves: pendingLeaveCount,
+      pendingLeaves: pendingLeaves.length,
       missingCheckouts: checkedInWithoutOut.length,
     },
   });
+
+  // Cache for 60s, serve stale for up to 5 minutes while revalidating in background
+  response.headers.set("Cache-Control", "private, max-age=60, stale-while-revalidate=300");
+  return response;
 }

@@ -18,7 +18,9 @@ export async function GET() {
       }
     });
 
-    return NextResponse.json(announcements);
+    const res = NextResponse.json(announcements);
+    res.headers.set("Cache-Control", "private, max-age=300, stale-while-revalidate=600");
+    return res;
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch announcements" }, { status: 500 });
   }

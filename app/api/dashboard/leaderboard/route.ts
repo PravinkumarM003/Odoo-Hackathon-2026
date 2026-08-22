@@ -33,7 +33,9 @@ export async function GET() {
       designation: a.employee.designation
     }));
 
-    return NextResponse.json(leaderboard);
+    const res = NextResponse.json(leaderboard);
+    res.headers.set("Cache-Control", "private, max-age=120, stale-while-revalidate=600");
+    return res;
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch leaderboard" }, { status: 500 });
   }

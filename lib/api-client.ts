@@ -2,10 +2,59 @@
 
 const API_BASE = "";
 
+// ─── In-memory dedup cache ────────────────────────────────────────────────────
+// Prevents multiple components from firing the same GET request simultaneously.
+// Cache entries expire after TTL (ms). Cache is only used for GET requests.
+const CACHE_TTL: Record<string, number> = {
+  "/api/notifications": 30_000,        // 30s
+  "/api/announcements": 300_000,       // 5 min
+  "/api/dashboard/leaderboard": 120_000, // 2 min
+  "/api/leave/balance": 60_000,        // 1 min
+  "/api/payroll": 60_000,              // 1 min
+  "/api/attendance/today": 20_000,     // 20s
+  "/api/hr/action-center": 60_000,     // 1 min
+};
+
+const cache = new Map<string, { promise: Promise<unknown>; expiresAt: number }>();
+
 async function request<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const method = (options.method ?? "GET").toUpperCase();
+
+  // Only cache GET requests and only known cache paths
+  const ttl = CACHE_TTL[path];
+  if (method === "GET" && ttl) {
+    const cached = cache.get(path);
+    if (cached && cached.expiresAt > Date.now()) {
+      return cached.promise as Promise<T>;
+    }
+    const promise = fetch(`${API_BASE}${path}`, {
+      credentials: "include",
+      headers: { "Content-Type": "application/json", ...options.headers },
+      ...options,
+    }).then(async (response) => {
+      if (!response.ok) {
+        cache.delete(path); // don't cache errors
+        const error = await response.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(error.error ?? `HTTP ${response.status}`);
+      }
+      return response.json();
+    });
+    cache.set(path, { promise, expiresAt: Date.now() + ttl });
+    return promise as Promise<T>;
+  }
+
+  // For non-GET or non-cached paths — and invalidate any GET cache for the same path
+  if (method !== "GET") {
+    // Invalidate related GET caches on mutations
+    const base = path.split("?")[0];
+    for (const key of Array.from(cache.keys())) {
+      if (key.startsWith(base) || base.startsWith(key)) cache.delete(key);
+    }
+  }
+
   const response = await fetch(`${API_BASE}${path}`, {
     credentials: "include",
     headers: {
