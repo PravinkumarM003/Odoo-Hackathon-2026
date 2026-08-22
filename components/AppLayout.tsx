@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { SessionProvider, useSession } from "@/context/SessionContext";
 
+const navEmployee = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/directory", icon: Users, label: "Directory" },
   { href: "/attendance", icon: Clock, label: "Attendance" },
