@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Plus, X, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { leaveApi } from "@/lib/api-client";
 import { formatDate } from "@/lib/utils";
+import { useSession } from "@/context/SessionContext";
 
 const LEAVE_TYPES = ["Annual", "Sick", "Personal", "Maternity", "Emergency"];
 
@@ -31,6 +32,7 @@ const statusConfig = {
 };
 
 export default function LeavePage() {
+  const { user } = useSession();
   const [leaves, setLeaves] = useState<LeaveRequest[]>([]);
   const [balance, setBalance] = useState<Balance | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -78,16 +80,17 @@ export default function LeavePage() {
           <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Leave Management</h1>
           <p className="text-neutral-400 mt-1">Apply for and track your leave requests</p>
         </div>
-        <motion.button
-          id="apply-leave-btn"
-          onClick={() => setShowForm(true)}
+        {user?.role === "EMPLOYEE" && (
+          <motion.button
+            id="apply-leave-btn"
+            onClick={() => setShowForm(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/25 animate-gradient"
         >
-          <Plus className="w-4 h-4" />
-          Apply Leave
-        </motion.button>
+            Apply Leave
+          </motion.button>
+        )}
       </div>
 
       {success && (

@@ -3,11 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X, Calendar, Zap, Clock } from "lucide-react";
 import { leaveApi, attendanceApi } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
+import { useSession } from "@/context/SessionContext";
 
 export function QuickActions() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useSession();
 
   async function quickCheckOut() {
     setLoading(true);
@@ -56,15 +58,17 @@ export function QuickActions() {
                   </button>
                 </div>
                 <div className="p-4 space-y-2">
-                  <button onClick={() => { setOpen(false); router.push("/leave"); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors text-left text-neutral-200">
-                    <div className="w-8 h-8 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center">
-                      <Calendar className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-medium">Apply Leave</div>
-                      <div className="text-xs text-neutral-500">Request time off</div>
-                    </div>
-                  </button>
+                  {user?.role === "EMPLOYEE" && (
+                    <button onClick={() => { setOpen(false); router.push("/leave"); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors text-left text-neutral-200">
+                      <div className="w-8 h-8 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center">
+                        <Calendar className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="font-medium">Apply Leave</div>
+                        <div className="text-xs text-neutral-500">Request time off</div>
+                      </div>
+                    </button>
+                  )}
                   <button onClick={() => { setOpen(false); router.push("/timeline"); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors text-left text-neutral-200">
                     <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
                       <Zap className="w-4 h-4" />
