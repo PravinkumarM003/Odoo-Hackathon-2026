@@ -22,15 +22,15 @@ export default function ProfilePage() {
   const { user, refresh } = useSession();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", address: "" });
+  const [form, setForm] = useState({ name: "", phone: "", address: "", photoUrl: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
     profileApi.get().then(d => {
-      const p = d as Profile;
-      setProfile(p);
-      setForm({ name: p.name, phone: p.phone ?? "", address: p.address ?? "" });
+      const p = d as Profile & { photoUrl?: string };
+      setProfile(p as any);
+      setForm({ name: p.name, phone: p.phone ?? "", address: p.address ?? "", photoUrl: p.photoUrl ?? "" });
     });
   }, []);
 
@@ -69,8 +69,12 @@ export default function ProfilePage() {
         className="glass rounded-2xl p-6 border border-white/8 card-shine"
       >
         <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl">
-            {getInitials(profile.name)}
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl overflow-hidden shrink-0">
+            {(profile as any).photoUrl ? (
+              <img src={(profile as any).photoUrl} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              getInitials(profile.name)
+            )}
           </div>
           <div>
             <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
@@ -125,6 +129,19 @@ export default function ProfilePage() {
                 </div>
               </div>
             ))}
+            
+            {editing && (
+              <div>
+                <label className="block text-sm font-medium text-neutral-400 mb-1">Profile Photo URL</label>
+                <input
+                  value={form.photoUrl}
+                  onChange={e => setForm({ ...form, photoUrl: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="https://example.com/photo.jpg"
+                />
+              </div>
+            )}
+            
             <div className="flex gap-3 pt-1">
               <button type="button" onClick={() => setEditing(false)}
                 className="flex-1 py-2.5 rounded-xl border border-white/10 text-neutral-400 text-sm hover:text-white transition-all">

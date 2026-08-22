@@ -334,7 +334,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className="absolute right-0 mt-3 w-56 glass rounded-2xl border border-white/10 shadow-2xl overflow-hidden z-50 p-2"
+                      className="absolute right-0 mt-3 w-56 bg-neutral-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden z-50 p-2"
                     >
                       <div className="px-3 py-2 border-b border-white/5 mb-2">
                         <div className="text-sm font-medium text-white">{user.name}</div>
@@ -353,7 +353,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/10 transition-colors text-sm text-left"
                       >
                         {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} 
-                        {isDark ? 'Light Mode' : 'Dark Mode'}
+                        {isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                       </button>
 
                       <div className="h-px bg-white/5 my-2" />
