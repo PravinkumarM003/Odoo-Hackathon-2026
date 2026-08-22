@@ -34,8 +34,24 @@ export default function ProfilePage() {
     });
   }, []);
 
+  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setForm(p => ({ ...p, photoUrl: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
+    const digits = form.phone.replace(/\D/g, '');
+    if (digits && digits.length !== 10) {
+      alert("Phone number must be exactly 10 digits.");
+      return;
+    }
     setLoading(true);
     try {
       await profileApi.update(form);
@@ -70,10 +86,26 @@ export default function ProfilePage() {
       >
         <div className="flex items-center gap-5">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl overflow-hidden shrink-0">
-            {(profile as any).photoUrl ? (
-              <img src={(profile as any).photoUrl} alt="Profile" className="w-full h-full object-cover" />
+            {editing ? (
+              <>
+                <input type="file" id="photo-upload" className="hidden" accept="image/*" onChange={handlePhotoChange} />
+                <label htmlFor="photo-upload" className="w-full h-full cursor-pointer relative group flex items-center justify-center">
+                  {form.photoUrl ? (
+                    <img src={form.photoUrl} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    getInitials(profile.name)
+                  )}
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] uppercase tracking-wider text-white">Upload</span>
+                  </div>
+                </label>
+              </>
             ) : (
-              getInitials(profile.name)
+              (profile as any).photoUrl ? (
+                <img src={(profile as any).photoUrl} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                getInitials(profile.name)
+              )
             )}
           </div>
           <div>
@@ -120,27 +152,23 @@ export default function ProfilePage() {
                 <label className="block text-sm text-neutral-400 mb-1.5">{label}</label>
                 <div className="relative">
                   <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
-                  <input
-                    type={type}
-                    value={form[key as keyof typeof form]}
-                    onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm"
-                  />
+                    <input
+                      type={type}
+                      value={form[key as keyof typeof form]}
+                      onChange={e => {
+                        let val = e.target.value;
+                        if (key === 'phone') {
+                          val = val.replace(/\D/g, '').slice(0, 10);
+                        }
+                        setForm(p => ({ ...p, [key]: val }));
+                      }}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                      placeholder={key === 'phone' ? '10-digit number' : ''}
+                    />
                 </div>
               </div>
             ))}
             
-            {editing && (
-              <div>
-                <label className="block text-sm font-medium text-neutral-400 mb-1">Profile Photo URL</label>
-                <input
-                  value={form.photoUrl}
-                  onChange={e => setForm({ ...form, photoUrl: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
-                  placeholder="https://example.com/photo.jpg"
-                />
-              </div>
-            )}
             
             <div className="flex gap-3 pt-1">
               <button type="button" onClick={() => setEditing(false)}
