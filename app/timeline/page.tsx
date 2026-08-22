@@ -180,7 +180,7 @@ export default function TimelinePage() {
     show: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 280, damping: 28 },
+      transition: { type: "spring" as const, stiffness: 280, damping: 28 },
     },
   };
 

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, XCircle, Clock, MessageSquare, Filter } from "lucide-react";
 import { hrApi } from "@/lib/api-client";
@@ -29,12 +29,12 @@ export default function HRLeavesPage() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  async function fetchLeaves() {
+  const fetchLeaves = useCallback(async () => {
     const data = await hrApi.getLeaves(filter) as LeaveRecord[];
     setLeaves(data);
-  }
+  }, [filter]);
 
-  useEffect(() => { fetchLeaves(); }, [filter]);
+  useEffect(() => { fetchLeaves(); }, [fetchLeaves]);
 
   async function handleAction() {
     if (!actionId || !actionType) return;
