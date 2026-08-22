@@ -1,5 +1,7 @@
 {
   "css.lint.unknownAtRules": "ignore",
   "css.lint.unknownProperties": "ignore",
-  "css.lint.validProperties": ["ring-width", "background-clip"]
+  "css.lint.validProperties": ["ring-width", "background-clip"],
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
