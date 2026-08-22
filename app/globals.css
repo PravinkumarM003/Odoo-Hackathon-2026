@@ -18,17 +18,17 @@
   --brand-900: #1e2d8e;
 
   /* Neutral inverted for LIGHT mode */
-  --neutral-50: #020617;
-  --neutral-100: #0f172a;
-  --neutral-200: #1e293b;
-  --neutral-300: #334155;
-  --neutral-400: #475569;
-  --neutral-500: #64748b;
-  --neutral-600: #94a3b8;
-  --neutral-700: #cbd5e1;
-  --neutral-800: #e2e8f0;
-  --neutral-900: #f1f5f9;
-  --neutral-950: #f8fafc;
+  --neutral-50: 2 6 23;
+  --neutral-100: 15 23 42;
+  --neutral-200: 30 41 59;
+  --neutral-300: 51 65 85;
+  --neutral-400: 71 85 105;
+  --neutral-500: 100 116 139;
+  --neutral-600: 148 163 184;
+  --neutral-700: 203 213 225;
+  --neutral-800: 226 232 240;
+  --neutral-900: 241 245 249;
+  --neutral-950: 248 250 252;
 
   /* Category Colors */
   --deep-work: #7c3aed;
@@ -55,17 +55,17 @@
 
 .dark {
   /* Neutral original for DARK mode */
-  --neutral-50: #f8fafc;
-  --neutral-100: #f1f5f9;
-  --neutral-200: #e2e8f0;
-  --neutral-300: #cbd5e1;
-  --neutral-400: #94a3b8;
-  --neutral-500: #64748b;
-  --neutral-600: #475569;
-  --neutral-700: #334155;
-  --neutral-800: #1e293b;
-  --neutral-900: #0f172a;
-  --neutral-950: #020617;
+  --neutral-50: 248 250 252;
+  --neutral-100: 241 245 249;
+  --neutral-200: 226 232 240;
+  --neutral-300: 203 213 225;
+  --neutral-400: 148 163 184;
+  --neutral-500: 100 116 139;
+  --neutral-600: 71 85 105;
+  --neutral-700: 51 65 85;
+  --neutral-800: 30 41 59;
+  --neutral-900: 15 23 42;
+  --neutral-950: 2 6 23;
 
   /* Glass Variables (Dark mode) */
   --glass-bg: rgba(15, 23, 42, 0.65);
