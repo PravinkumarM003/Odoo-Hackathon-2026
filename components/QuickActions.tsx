@@ -69,7 +69,7 @@ export function QuickActions() {
                       </div>
                     </button>
                   )}
-                  <button onClick={() => { setOpen(false); router.push("/timeline"); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-neutral-50/5 hover:bg-neutral-50/10 border border-neutral-50/5 transition-colors text-left text-neutral-200">
+                  <button onClick={() => { setOpen(false); router.push("/log-activity"); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-neutral-50/5 hover:bg-neutral-50/10 border border-neutral-50/5 transition-colors text-left text-neutral-200">
                     <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
                       <Zap className="w-4 h-4" />
                     </div>
