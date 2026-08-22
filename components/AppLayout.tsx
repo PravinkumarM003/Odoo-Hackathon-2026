@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Clock, Calendar, DollarSign, User, Users,
   ClipboardList, LogOut, Zap, Bell, ChevronRight, Menu,
-  ArrowLeft, Home, Sparkles, Settings, Moon, Sun, Megaphone
+  ArrowLeft, Home, Sparkles, Settings, Moon, Sun, Megaphone, Activity
 } from "lucide-react";
 import { SessionProvider, useSession } from "@/context/SessionContext";
 import { useTheme } from "next-themes";
@@ -18,6 +18,7 @@ const navEmployee = [
   { href: "/leave", icon: Calendar, label: "Leave" },
   { href: "/payroll", icon: DollarSign, label: "Payroll" },
   { href: "/timeline", icon: Zap, label: "My Timeline" },
+  { href: "/log-activity", icon: Activity, label: "Log Activity" },
   { href: "/profile", icon: User, label: "Profile" },
 ];
 
@@ -30,6 +31,7 @@ const navHR = [
   { href: "/hr/announcements", icon: Megaphone, label: "Announcements" },
   { href: "/hr/payroll", icon: DollarSign, label: "Payroll" },
   { href: "/timeline", icon: Zap, label: "Timeline" },
+  { href: "/log-activity", icon: Activity, label: "Log Activity" },
 ];
 
 // Readable breadcrumb labels
@@ -39,6 +41,7 @@ const ROUTE_LABELS: Record<string, string> = {
   leave: "Leave",
   payroll: "Payroll",
   timeline: "Timeline",
+  "log-activity": "Log Activity",
   profile: "Profile",
   notifications: "Notifications",
   hr: "HR",

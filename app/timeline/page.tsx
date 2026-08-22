@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { Zap, Clock, Calendar, ChevronRight, Plus, X } from "lucide-react";
-import { workBlocksApi, attendanceApi, hrApi } from "@/lib/api-client";
+import { Zap, Clock, Calendar, ChevronRight } from "lucide-react";
+import { workBlocksApi, attendanceApi } from "@/lib/api-client";
 import { getDayStory, timeToPercent, getCurrentTimePercent, formatTime } from "@/lib/utils";
 import { useSession } from "@/context/SessionContext";
 
@@ -133,32 +133,19 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(true);
   const [timePercent, setTimePercent] = useState(getCurrentTimePercent());
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
-
-  const [isAdding, setIsAdding] = useState(false);
-  const [newBlock, setNewBlock] = useState({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
-  const [submitting, setSubmitting] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [hrEmployees, setHrEmployees] = useState<{id: string, name: string}[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
-      const promises: any[] = [
-        workBlocksApi.getMy(),
-        attendanceApi.getToday(),
-      ];
-      if (user?.role === "HR") {
-        promises.push(hrApi.getEmployees());
-      }
-      
-      const results = await Promise.all(promises);
-      setBlocks(results[0] as WorkBlock[]);
-      setAttendance(results[1] as Attendance | null);
-      if (user?.role === "HR") {
-        setHrEmployees(results[2] as {id: string, name: string}[]);
-      }
+      const [wb, att] = await Promise.all([
+        workBlocksApi.getMy() as Promise<WorkBlock[]>,
+        attendanceApi.getToday() as Promise<Attendance | null>,
+      ]);
+      setBlocks(wb);
+      setAttendance(att);
     } catch { /* ignore */ }
     finally { setLoading(false); }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -180,24 +167,6 @@ export default function TimelinePage() {
         department: user.department,
       })
     : null;
-
-  async function handleAddActivity(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      await workBlocksApi.addWorkBlock({
-        ...newBlock,
-        employeeId: newBlock.employeeId || undefined
-      });
-      setIsAdding(false);
-      setNewBlock({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
-      fetchData();
-    } catch (err) {
-      alert("Failed to add activity.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -240,72 +209,7 @@ export default function TimelinePage() {
             {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
           </p>
         </div>
-        <button onClick={() => setIsAdding(true)} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20">
-          <Plus className="w-4 h-4" /> Add Activity
-        </button>
       </motion.div>
-
-      {/* Add Activity Modal */}
-      <AnimatePresence>
-        {isAdding && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }} 
-            animate={{ opacity: 1, height: "auto" }} 
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden"
-          >
-            <div className="glass rounded-2xl p-6 border border-blue-500/30 relative mt-2 mb-6 shadow-xl shadow-blue-900/10">
-              <button onClick={() => setIsAdding(false)} className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-200">
-                <X className="w-5 h-5" />
-              </button>
-              <h2 className="text-xl font-semibold text-neutral-50 mb-4">Log Activity</h2>
-              <form onSubmit={handleAddActivity} className="space-y-4">
-                {user?.role === "HR" && (
-                  <div>
-                    <label className="block text-xs font-medium text-neutral-400 mb-1">Assign to Employee (Optional)</label>
-                    <select value={newBlock.employeeId} onChange={e => setNewBlock({...newBlock, employeeId: e.target.value})} className="w-full bg-neutral-900 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors appearance-none">
-                      <option value="">Assign to myself</option>
-                      {hrEmployees.map(emp => (
-                        <option key={emp.id} value={emp.id}>{emp.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                <div className="flex gap-4">
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-neutral-400 mb-1">Start Time</label>
-                    <input type="time" required value={newBlock.startTime} onChange={e => setNewBlock({...newBlock, startTime: e.target.value})} className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors" />
-                  </div>
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-neutral-400 mb-1">End Time</label>
-                    <input type="time" required value={newBlock.endTime} onChange={e => setNewBlock({...newBlock, endTime: e.target.value})} className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors" />
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-neutral-400 mb-1">Category</label>
-                    <select required value={newBlock.category} onChange={e => setNewBlock({...newBlock, category: e.target.value})} className="w-full bg-neutral-900 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors appearance-none">
-                      <option value="DEEP_WORK">Deep Work</option>
-                      <option value="MEETING">Meeting</option>
-                      <option value="ADMIN">Admin</option>
-                      <option value="REST">Rest</option>
-                    </select>
-                  </div>
-                  <div className="flex-[2]">
-                    <label className="block text-xs font-medium text-neutral-400 mb-1">Description</label>
-                    <input type="text" required placeholder="What did you work on?" value={newBlock.description} onChange={e => setNewBlock({...newBlock, description: e.target.value})} className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors" />
-                  </div>
-                </div>
-                <div className="pt-2 flex justify-end">
-                  <button type="submit" disabled={submitting} className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-xl font-medium transition-all disabled:opacity-50">
-                    {submitting ? "Saving..." : "Save Activity"}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Day Story */}
       {dayStory && (
