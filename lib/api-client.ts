@@ -166,6 +166,8 @@ export const hrApi = {
     }),
   getPayroll: (employeeId?: string) =>
     request(`/api/hr/payroll${employeeId ? `/${employeeId}` : ""}`),
+  createPayroll: (data: { employeeId: string; basic: number; allowances: number; deductions: number }) =>
+    request("/api/hr/payroll", { method: "POST", body: JSON.stringify(data) }),
   updatePayroll: (
     employeeId: string,
     data: { basic: number; allowances: number; deductions: number }
