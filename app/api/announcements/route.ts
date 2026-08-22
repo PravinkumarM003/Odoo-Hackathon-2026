@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         title,
         content,
         priority: priority || "NORMAL",
-        authorId: user.id,
+        authorId: user.userId,
       }
     });
 
