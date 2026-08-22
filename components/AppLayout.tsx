@@ -259,9 +259,9 @@ function AppShell({ children }: { children: React.ReactNode }) {
       </motion.aside>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-0">
         {/* Header with breadcrumbs & back button */}
-        <header className="h-16 glass border-b border-white/8 flex items-center gap-4 px-6 shrink-0">
+        <header className="h-16 glass border-b border-white/8 flex items-center gap-4 px-6 shrink-0 relative z-50">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-neutral-400 hover:text-white transition-colors">
             <Menu className="w-5 h-5" />
           </button>
