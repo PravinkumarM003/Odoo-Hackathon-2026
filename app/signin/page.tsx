@@ -131,7 +131,26 @@ export default function SignInPage() {
             </motion.button>
           </form>
 
-
+          {/* Demo credentials */}
+          <div className="mt-6 p-4 rounded-xl bg-white/3 border border-white/6">
+            <p className="text-xs text-neutral-500 mb-2 font-medium uppercase tracking-wider">Demo accounts</p>
+            <div className="space-y-1.5">
+              <button
+                type="button"
+                onClick={() => { setEmail("hr@dayflow.demo"); setPassword("Demo@123"); }}
+                className="w-full text-left text-xs text-neutral-400 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+              >
+                <span className="text-blue-400 font-medium">HR: </span>hr@dayflow.demo / Demo@123
+              </button>
+              <button
+                type="button"
+                onClick={() => { setEmail("employee@dayflow.demo"); setPassword("Demo@123"); }}
+                className="w-full text-left text-xs text-neutral-400 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+              >
+                <span className="text-purple-400 font-medium">Employee: </span>employee@dayflow.demo / Demo@123
+              </button>
+            </div>
+          </div>
 
           <p className="mt-6 text-center text-sm text-neutral-400">
             New employee?{" "}
