@@ -6,13 +6,15 @@ import { workBlocksApi, hrApi } from "@/lib/api-client";
 import { useSession } from "@/context/SessionContext";
 
 export default function LogActivityPage() {
-  const { user } = useSession();
+  const { user, loading: sessionLoading } = useSession();
   const [newBlock, setNewBlock] = useState({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
   const [submitting, setSubmitting] = useState(false);
   const [hrEmployees, setHrEmployees] = useState<{id: string, name: string}[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchEmployees = useCallback(async () => {
+    if (sessionLoading) return;
+    
     if (user?.role === "HR") {
       try {
         const emps = await hrApi.getEmployees();
@@ -20,7 +22,7 @@ export default function LogActivityPage() {
       } catch { /* ignore */ }
     }
     setLoading(false);
-  }, [user]);
+  }, [user, sessionLoading]);
 
   useEffect(() => {
     fetchEmployees();
