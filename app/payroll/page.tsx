@@ -49,14 +49,14 @@ export default function PayrollPage() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="glass rounded-2xl p-8 border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 text-center card-shine"
+        className="glass rounded-2xl p-8 border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 text-center card-shine card-interactive"
       >
         <p className="text-neutral-400 text-sm uppercase tracking-wider mb-2">Annual Net Salary</p>
         <motion.div
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
-          className="text-5xl font-bold gradient-text font-['Space_Grotesk'] mb-2"
+          className="text-5xl font-bold gradient-text font-['Space_Grotesk'] mb-2 animate-float"
         >
           {formatCurrency(payroll.netSalary)}
         </motion.div>
@@ -66,7 +66,7 @@ export default function PayrollPage() {
       </motion.div>
 
       {/* Breakdown */}
-      <div className="space-y-3">
+      <div className="space-y-3 stagger-children">
         {items.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -75,7 +75,8 @@ export default function PayrollPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="glass rounded-xl p-5 border border-white/8 flex items-center justify-between"
+              whileHover={{ x: 4, scale: 1.01 }}
+              className="glass rounded-xl p-5 border border-white/8 flex items-center justify-between card-interactive"
             >
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${

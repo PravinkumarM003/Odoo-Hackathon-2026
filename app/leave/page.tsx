@@ -83,7 +83,7 @@ export default function LeavePage() {
           onClick={() => setShowForm(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/25"
+          className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/25 animate-gradient"
         >
           <Plus className="w-4 h-4" />
           Apply Leave
@@ -99,7 +99,7 @@ export default function LeavePage() {
 
       {/* Balance cards */}
       {balance && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 stagger-children">
           {[
             { label: "Annual", data: balance.annual, color: "text-green-400 bg-green-500/15" },
             { label: "Sick", data: balance.sick, color: "text-blue-400 bg-blue-500/15" },
@@ -108,11 +108,11 @@ export default function LeavePage() {
             <motion.div
               key={label}
               whileHover={{ scale: 1.02 }}
-              className="glass rounded-xl p-4 border border-white/8 card-shine"
+              className="glass rounded-xl p-4 border border-white/8 card-shine card-interactive"
             >
               <div className="text-xs text-neutral-500 uppercase tracking-wider mb-2">{label} Leave</div>
               <div className="flex items-end gap-1 mb-2">
-                <span className={`text-3xl font-bold ${color.split(" ")[0]}`}>{data.remaining}</span>
+                <span className={`text-3xl font-bold ${color.split(" ")[0]} animate-float`} style={{ animationDelay: `${Math.random()}s` }}>{data.remaining}</span>
                 <span className="text-neutral-500 text-sm mb-1">/ {data.total} days</span>
               </div>
               <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">

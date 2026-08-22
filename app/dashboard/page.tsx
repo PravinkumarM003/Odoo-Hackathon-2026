@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import {
   Clock, Calendar, DollarSign, TrendingUp, CheckCircle, XCircle,
   AlertCircle, Bell, ChevronRight, Users, Zap, Target, Activity
@@ -9,12 +9,13 @@ import Link from "next/link";
 import { useSession } from "@/context/SessionContext";
 import { attendanceApi, leaveApi, payrollApi, notificationsApi, hrApi } from "@/lib/api-client";
 import { formatTime, formatDate, formatCurrency } from "@/lib/utils";
+import { SpotlightCard } from "@/components/Animations";
 
-const container = {
+const container: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.08 } },
 };
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
 };
@@ -30,22 +31,24 @@ interface StatCardProps {
 
 function StatCard({ icon, label, value, sub, color, href }: StatCardProps) {
   const content = (
-    <motion.div
-      variants={item}
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      className={`glass glass-hover card-shine rounded-2xl p-5 flex items-start gap-4 cursor-pointer border border-white/8 ${href ? "hover:border-white/15" : ""}`}
-    >
-      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
-        {icon}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="text-neutral-400 text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
-        <div className="text-2xl font-bold text-white">{value}</div>
-        {sub && <div className="text-xs text-neutral-500 mt-0.5">{sub}</div>}
-      </div>
-      {href && <ChevronRight className="w-4 h-4 text-neutral-600 shrink-0 mt-1" />}
-    </motion.div>
+    <SpotlightCard className="h-full">
+      <motion.div
+        variants={item}
+        whileHover={{ scale: 1.02, y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        className={`glass glass-hover h-full rounded-2xl p-5 flex items-start gap-4 cursor-pointer border border-white/8 ${href ? "hover:border-white/15" : ""}`}
+      >
+        <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color} animate-float`} style={{ animationDelay: `${Math.random()}s` }}>
+          {icon}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-neutral-400 text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
+          <div className="text-2xl font-bold text-white">{value}</div>
+          {sub && <div className="text-xs text-neutral-500 mt-0.5">{sub}</div>}
+        </div>
+        {href && <ChevronRight className="w-4 h-4 text-neutral-600 shrink-0 mt-1 transition-transform group-hover:translate-x-1" />}
+      </motion.div>
+    </SpotlightCard>
   );
   return href ? <Link href={href}>{content}</Link> : content;
 }
@@ -249,9 +252,10 @@ export default function DashboardPage() {
       {!isHR && (
         <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
           {/* Check-in/out card */}
-          <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5 pointer-events-none" />
-            <div className="relative flex items-center justify-between flex-wrap gap-4">
+          <SpotlightCard>
+            <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5 pointer-events-none" />
+              <div className="relative flex items-center justify-between flex-wrap gap-4">
               <div>
                 <h2 className="text-xl font-bold text-white">Today's Attendance</h2>
                 <div className="flex items-center gap-4 mt-2">
@@ -279,7 +283,7 @@ export default function DashboardPage() {
                     disabled={checkLoading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/40 text-green-400 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
+                    className="btn-glow flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/40 text-green-400 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
                   >
                     {checkLoading ? <div className="w-4 h-4 border-2 border-green-400/30 border-t-green-400 rounded-full animate-spin" /> : <CheckCircle className="w-4 h-4" />}
                     Check In
@@ -292,7 +296,7 @@ export default function DashboardPage() {
                     disabled={checkLoading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
+                    className="btn-glow flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
                   >
                     {checkLoading ? <div className="w-4 h-4 border-2 border-red-400/30 border-t-red-400 rounded-full animate-spin" /> : <XCircle className="w-4 h-4" />}
                     Check Out
@@ -307,6 +311,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </motion.div>
+        </SpotlightCard>
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
