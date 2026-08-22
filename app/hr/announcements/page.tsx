@@ -61,7 +61,7 @@ export default function HRAnnouncementsPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Announcements</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Announcements</h1>
           <p className="text-neutral-400 mt-1">Broadcast messages to the entire company</p>
         </div>
         <motion.button

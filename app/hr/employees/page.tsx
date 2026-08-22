@@ -60,7 +60,7 @@ export default function HREmployeesPage() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Employees</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Employees</h1>
           <p className="text-neutral-400 mt-1">{employees.length} team members</p>
         </div>
       </div>

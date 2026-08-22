@@ -54,7 +54,7 @@ export default function SignInPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg glow-blue">
               <Zap className="w-5 h-5 text-neutral-50" fill="white" />
             </div>
-            <span className="text-2xl font-bold font-['Space_Grotesk'] gradient-text">Dayflow</span>
+            <span className="text-2xl font-bold font-display gradient-text">Dayflow</span>
           </div>
           <h1 className="text-3xl font-bold text-neutral-50 mb-2">Welcome back</h1>
           <p className="text-neutral-400 text-sm">Every workday, perfectly aligned.</p>

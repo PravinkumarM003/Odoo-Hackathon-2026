@@ -30,7 +30,7 @@ export default function AttendancePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Attendance</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-display">Attendance</h1>
         <p className="text-neutral-400 mt-1">Your attendance history (last 14 days)</p>
       </div>
 

@@ -187,7 +187,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               <Zap className="w-4 h-4 text-neutral-50" fill="white" />
             </motion.div>
             <div>
-              <div className="text-lg font-bold gradient-text font-['Space_Grotesk'] group-hover:opacity-80 transition-opacity tracking-tight">Dayflow.OS</div>
+              <div className="text-lg font-bold gradient-text font-display group-hover:opacity-80 transition-opacity tracking-tight">Dayflow.OS</div>
               <div className="text-xs text-neutral-500">{user.role === "HR" ? "Admin Console" : "Employee Portal"}</div>
             </div>
           </Link>
@@ -280,7 +280,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
           </button>
 
           {isDashboard && (
-            <div className="font-bold text-neutral-50 text-lg tracking-tight font-['Space_Grotesk'] hidden lg:block mr-2">
+            <div className="font-bold text-neutral-50 text-lg tracking-tight font-display hidden lg:block mr-2">
               Dayflow<span className="text-blue-400">.OS</span>
             </div>
           )}

@@ -77,7 +77,7 @@ export default function LeavePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Leave Management</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Leave Management</h1>
           <p className="text-neutral-400 mt-1">Apply for and track your leave requests</p>
         </div>
         {user?.role === "EMPLOYEE" && (

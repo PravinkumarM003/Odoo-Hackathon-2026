@@ -40,7 +40,7 @@ export default function DirectoryPage() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Colleague Directory</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Colleague Directory</h1>
           <p className="text-neutral-400 mt-1">Connect with your team members across the company</p>
         </div>
         

@@ -34,7 +34,7 @@ export default function HRAttendancePage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Attendance Overview</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Attendance Overview</h1>
           <p className="text-neutral-400 mt-1">Team attendance for the selected date</p>
         </div>
         <input

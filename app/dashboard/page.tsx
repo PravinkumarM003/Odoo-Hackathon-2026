@@ -10,7 +10,9 @@ import { useSession } from "@/context/SessionContext";
 import { attendanceApi, leaveApi, payrollApi, notificationsApi, hrApi } from "@/lib/api-client";
 import { formatTime, formatDate, formatCurrency } from "@/lib/utils";
 import { SpotlightCard } from "@/components/Animations";
-import { QuickActions } from "@/components/QuickActions";
+import dynamic from "next/dynamic";
+
+const QuickActions = dynamic(() => import("@/components/QuickActions").then((mod) => mod.QuickActions), { ssr: false });
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -159,7 +161,7 @@ export default function DashboardPage() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">
+            <h1 className="text-3xl font-bold text-neutral-50 font-display">
               {greeting}, {user?.name?.split(" ")[0]} 👋
             </h1>
             <p className="text-neutral-400 mt-1">
@@ -404,7 +406,7 @@ export default function DashboardPage() {
                       {earlyBirds.map((bird, idx) => (
                         <div key={bird.id} className="flex items-center justify-between p-3 rounded-xl bg-neutral-50/3 border border-neutral-50/5 card-interactive">
                           <div className="flex items-center gap-3">
-                            <div className="text-xl font-bold font-['Space_Grotesk'] w-6 text-center text-neutral-600">#{idx + 1}</div>
+                            <div className="text-xl font-bold font-display w-6 text-center text-neutral-600">#{idx + 1}</div>
                             <div>
                               <div className="text-sm font-semibold text-neutral-50">{bird.name}</div>
                               <div className="text-xs text-neutral-500">{bird.designation}</div>

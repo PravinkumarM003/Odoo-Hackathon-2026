@@ -75,7 +75,7 @@ export default function HRLeavesPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Leave Requests</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-display">Leave Requests</h1>
         <p className="text-neutral-400 mt-1">Review and action employee leave requests</p>
       </div>
 

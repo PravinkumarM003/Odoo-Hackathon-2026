@@ -41,7 +41,7 @@ export default function PayrollPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Payroll</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-display">Payroll</h1>
         <p className="text-neutral-400 mt-1">Your compensation breakdown</p>
       </div>
 
@@ -56,7 +56,7 @@ export default function PayrollPage() {
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
-          className="text-5xl font-bold gradient-text font-['Space_Grotesk'] mb-2 animate-float"
+          className="text-5xl font-bold gradient-text font-display mb-2 animate-float"
         >
           {formatCurrency(payroll.netSalary)}
         </motion.div>

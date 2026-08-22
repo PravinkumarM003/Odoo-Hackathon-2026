@@ -61,7 +61,7 @@ export default function LogActivityPage() {
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
             <Zap className="w-4 h-4 text-neutral-50" fill="white" />
           </div>
-          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Log Activity</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-display">Log Activity</h1>
         </div>
         <p className="text-neutral-400 ml-11">
           Record a new block of work
