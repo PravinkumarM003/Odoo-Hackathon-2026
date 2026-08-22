@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { AnimatedBackground } from "@/components/Animations";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className="bg-neutral-950 min-h-screen antialiased text-neutral-200 font-sans">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <AnimatedBackground />
-          {children}
+          <ClientLayout>{children}</ClientLayout>
         </ThemeProvider>
       </body>
     </html>
