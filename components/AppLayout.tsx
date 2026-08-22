@@ -169,11 +169,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       {/* Sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{ x: sidebarOpen ? 0 : "-100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 w-64 bg-[#0a0c10] border-r border-neutral-800 z-40 flex flex-col lg:translate-x-0 lg:static lg:z-auto"
+      <aside
+        className={`fixed left-0 top-0 bottom-0 w-64 bg-[#0a0c10] border-r border-neutral-800 z-40 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         {/* Logo */}
         <div className="p-6 border-b border-neutral-800">
@@ -245,7 +244,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
             <LogOut className="w-[18px] h-[18px]" />Sign out
           </button>
         </div>
-      </motion.aside>
+      </aside>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-0">
