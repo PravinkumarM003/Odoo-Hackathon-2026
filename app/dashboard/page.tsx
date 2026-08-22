@@ -37,14 +37,14 @@ function StatCard({ icon, label, value, sub, color, href }: StatCardProps) {
         variants={item}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className={`glass glass-hover h-full rounded-2xl p-5 flex items-start gap-4 cursor-pointer border border-white/8 ${href ? "hover:border-white/15" : ""}`}
+        className={`glass glass-hover h-full rounded-2xl p-5 flex items-start gap-4 cursor-pointer border border-neutral-50/8 ${href ? "hover:border-neutral-50/15" : ""}`}
       >
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color} animate-float`} style={{ animationDelay: `${Math.random()}s` }}>
           {icon}
         </div>
         <div className="min-w-0 flex-1">
           <div className="text-neutral-400 text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
-          <div className="text-2xl font-bold text-white">{value}</div>
+          <div className="text-2xl font-bold text-neutral-50">{value}</div>
           {sub && <div className="text-xs text-neutral-500 mt-0.5">{sub}</div>}
         </div>
         {href && <ChevronRight className="w-4 h-4 text-neutral-600 shrink-0 mt-1 transition-transform group-hover:translate-x-1" />}
@@ -152,7 +152,7 @@ export default function DashboardPage() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">
+            <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">
               {greeting}, {user?.name?.split(" ")[0]} 👋
             </h1>
             <p className="text-neutral-400 mt-1">
@@ -164,7 +164,7 @@ export default function DashboardPage() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden sm:flex items-center gap-2 glass glass-hover px-4 py-2 rounded-xl text-sm text-neutral-300 hover:text-white border border-white/8"
+                className="hidden sm:flex items-center gap-2 glass glass-hover px-4 py-2 rounded-xl text-sm text-neutral-300 hover:text-neutral-50 border border-neutral-50/8"
               >
                 <Zap className="w-4 h-4 text-blue-400" />
                 View Timeline
@@ -178,9 +178,9 @@ export default function DashboardPage() {
       {isFetching ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-32 glass rounded-2xl border border-white/8" />
+            <div key={i} className="h-32 glass rounded-2xl border border-neutral-50/8" />
           ))}
-          <div className="md:col-span-2 lg:col-span-4 h-64 glass rounded-2xl border border-white/8 mt-4" />
+          <div className="md:col-span-2 lg:col-span-4 h-64 glass rounded-2xl border border-neutral-50/8 mt-4" />
         </div>
       ) : (
         <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
@@ -196,13 +196,13 @@ export default function DashboardPage() {
               </div>
 
               {/* Action Center */}
-              <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine">
+              <motion.div variants={item} className="glass rounded-2xl p-6 border border-neutral-50/8 card-shine">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center">
                     <Target className="w-4 h-4 text-blue-400" />
                   </div>
                   <div>
-                    <h2 className="text-white font-semibold">Today's Attention</h2>
+                    <h2 className="text-neutral-50 font-semibold">Today's Attention</h2>
                     <p className="text-xs text-neutral-500">Items requiring your action</p>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-3">
                               <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0" />
                               <div>
-                                <span className="text-sm text-white font-medium">{leave.employeeName}</span>
+                                <span className="text-sm text-neutral-50 font-medium">{leave.employeeName}</span>
                                 <span className="text-xs text-neutral-500 ml-2">{leave.type} leave</span>
                               </div>
                             </div>
@@ -238,7 +238,7 @@ export default function DashboardPage() {
                         <div key={a.attendanceId} className="flex items-center justify-between p-3 rounded-xl bg-red-500/8 border border-red-500/20">
                           <div className="flex items-center gap-3">
                             <Clock className="w-4 h-4 text-red-400 shrink-0" />
-                            <span className="text-sm text-white">{a.employeeName}</span>
+                            <span className="text-sm text-neutral-50">{a.employeeName}</span>
                             <span className="text-xs text-neutral-500">checked in {formatTime(a.checkIn)}</span>
                           </div>
                         </div>
@@ -274,11 +274,11 @@ export default function DashboardPage() {
           {!isHR && (
             <div className="space-y-6">
               <SpotlightCard>
-                <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine relative overflow-hidden">
+                <motion.div variants={item} className="glass rounded-2xl p-6 border border-neutral-50/8 card-shine relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5 pointer-events-none" />
                   <div className="relative flex items-center justify-between flex-wrap gap-4">
                   <div>
-                    <h2 className="text-xl font-bold text-white">Today's Attendance</h2>
+                    <h2 className="text-xl font-bold text-neutral-50">Today's Attendance</h2>
                     <div className="flex items-center gap-4 mt-2">
                       {(todayAttendance as { checkIn?: string } | null)?.checkIn && (
                         <span className="text-sm text-neutral-400">
@@ -335,16 +335,16 @@ export default function DashboardPage() {
             </SpotlightCard>
 
               {announcements.length > 0 && (
-                <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine">
+                <motion.div variants={item} className="glass rounded-2xl p-6 border border-neutral-50/8 card-shine">
                   <div className="flex items-center gap-2 mb-4">
                     <Megaphone className="w-5 h-5 text-purple-400" />
-                    <h2 className="text-lg font-bold text-white">Company Announcements</h2>
+                    <h2 className="text-lg font-bold text-neutral-50">Company Announcements</h2>
                   </div>
                   <div className="space-y-3">
                     {announcements.slice(0, 3).map((ann) => (
-                      <div key={ann.id} className={`p-4 rounded-xl border ${ann.priority === "HIGH" ? "bg-red-500/10 border-red-500/20" : "bg-white/3 border-white/5"}`}>
+                      <div key={ann.id} className={`p-4 rounded-xl border ${ann.priority === "HIGH" ? "bg-red-500/10 border-red-500/20" : "bg-neutral-50/3 border-neutral-50/5"}`}>
                         <div className="flex justify-between items-start mb-1">
-                          <h3 className="font-semibold text-white flex items-center gap-2">
+                          <h3 className="font-semibold text-neutral-50 flex items-center gap-2">
                             {ann.title}
                             {ann.priority === "HIGH" && <span className="text-[10px] uppercase bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">Important</span>}
                           </h3>
@@ -386,20 +386,20 @@ export default function DashboardPage() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {earlyBirds.length > 0 && (
-                  <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine">
+                  <motion.div variants={item} className="glass rounded-2xl p-6 border border-neutral-50/8 card-shine">
                     <div className="flex items-center gap-2 mb-4">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/20">
-                        <Target className="w-4 h-4 text-white" />
+                        <Target className="w-4 h-4 text-neutral-50" />
                       </div>
-                      <h2 className="text-white font-semibold">Today's Early Birds</h2>
+                      <h2 className="text-neutral-50 font-semibold">Today's Early Birds</h2>
                     </div>
                     <div className="space-y-3">
                       {earlyBirds.map((bird, idx) => (
-                        <div key={bird.id} className="flex items-center justify-between p-3 rounded-xl bg-white/3 border border-white/5 card-interactive">
+                        <div key={bird.id} className="flex items-center justify-between p-3 rounded-xl bg-neutral-50/3 border border-neutral-50/5 card-interactive">
                           <div className="flex items-center gap-3">
                             <div className="text-xl font-bold font-['Space_Grotesk'] w-6 text-center text-neutral-600">#{idx + 1}</div>
                             <div>
-                              <div className="text-sm font-semibold text-white">{bird.name}</div>
+                              <div className="text-sm font-semibold text-neutral-50">{bird.name}</div>
                               <div className="text-xs text-neutral-500">{bird.designation}</div>
                             </div>
                           </div>
@@ -413,13 +413,13 @@ export default function DashboardPage() {
                 )}
 
                 {notifications.length > 0 && (
-                  <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8">
+                  <motion.div variants={item} className="glass rounded-2xl p-6 border border-neutral-50/8">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
                         <Bell className="w-4 h-4 text-blue-400" />
-                        <h2 className="text-white font-semibold">Recent Notifications</h2>
+                        <h2 className="text-neutral-50 font-semibold">Recent Notifications</h2>
                         {unread > 0 && (
-                          <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                          <span className="bg-red-500 text-neutral-50 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                             {unread}
                           </span>
                         )}
@@ -431,7 +431,7 @@ export default function DashboardPage() {
                           key={n.id}
                           className={`p-3 rounded-xl text-sm border transition-all ${
                             n.read
-                              ? "bg-white/2 border-white/5 text-neutral-500"
+                              ? "bg-neutral-50/2 border-neutral-50/5 text-neutral-500"
                               : "bg-blue-500/8 border-blue-500/20 text-neutral-200"
                           }`}
                         >

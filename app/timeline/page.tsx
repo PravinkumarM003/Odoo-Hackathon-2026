@@ -187,8 +187,8 @@ export default function TimelinePage() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="h-8 w-48 bg-white/5 rounded-xl animate-pulse" />
-        <div className="h-64 bg-white/3 rounded-2xl animate-pulse" />
+        <div className="h-8 w-48 bg-neutral-50/5 rounded-xl animate-pulse" />
+        <div className="h-64 bg-neutral-50/3 rounded-2xl animate-pulse" />
       </div>
     );
   }
@@ -199,9 +199,9 @@ export default function TimelinePage() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center gap-3 mb-1">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" fill="white" />
+            <Zap className="w-4 h-4 text-neutral-50" fill="white" />
           </div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Dayflow Pulse</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Dayflow Pulse</h1>
         </div>
         <p className="text-neutral-400 ml-11">
           {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
@@ -220,7 +220,7 @@ export default function TimelinePage() {
             <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
             <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider">Day Story</span>
           </div>
-          <p className="text-white text-base leading-relaxed font-medium">
+          <p className="text-neutral-50 text-base leading-relaxed font-medium">
             <TypewriterText text={dayStory} />
           </p>
         </motion.div>
@@ -229,14 +229,14 @@ export default function TimelinePage() {
       {/* Check-in summary */}
       <div className="flex items-center gap-4 text-sm">
         {attendance?.checkIn && (
-          <div className="flex items-center gap-2 glass px-4 py-2 rounded-xl border border-white/8">
+          <div className="flex items-center gap-2 glass px-4 py-2 rounded-xl border border-neutral-50/8">
             <Clock className="w-4 h-4 text-green-400" />
             <span className="text-neutral-400">In:</span>
             <span className="text-green-400 font-medium">{formatTime(attendance.checkIn)}</span>
           </div>
         )}
         {attendance?.checkOut && (
-          <div className="flex items-center gap-2 glass px-4 py-2 rounded-xl border border-white/8">
+          <div className="flex items-center gap-2 glass px-4 py-2 rounded-xl border border-neutral-50/8">
             <Clock className="w-4 h-4 text-blue-400" />
             <span className="text-neutral-400">Out:</span>
             <span className="text-blue-400 font-medium">{formatTime(attendance.checkOut)}</span>
@@ -256,22 +256,22 @@ export default function TimelinePage() {
 
       {/* Timeline */}
       {blocks.length === 0 ? (
-        <div className="glass rounded-2xl p-16 text-center border border-white/8">
+        <div className="glass rounded-2xl p-16 text-center border border-neutral-50/8">
           <Calendar className="w-12 h-12 mx-auto mb-4 text-neutral-600" />
           <p className="text-neutral-500">No work blocks recorded for today</p>
         </div>
       ) : (
-        <div className="glass rounded-2xl p-6 border border-white/8 relative overflow-hidden">
+        <div className="glass rounded-2xl p-6 border border-neutral-50/8 relative overflow-hidden">
           {/* Time ruler */}
           <div className="flex justify-between mb-6 text-xs text-neutral-600 font-medium">
             {TIME_LABELS.map(t => <span key={t}>{t}</span>)}
           </div>
 
           {/* Timeline track */}
-          <div className="relative h-3 bg-white/5 rounded-full mb-8 overflow-hidden">
+          <div className="relative h-3 bg-neutral-50/5 rounded-full mb-8 overflow-hidden">
             <div className="absolute inset-y-0 left-0 right-0 flex">
               {TIME_LABELS.slice(0, -1).map((_, i) => (
-                <div key={i} className="flex-1 border-r border-white/5 last:border-0" />
+                <div key={i} className="flex-1 border-r border-neutral-50/5 last:border-0" />
               ))}
             </div>
 
@@ -323,7 +323,7 @@ export default function TimelinePage() {
                     <motion.div
                       layoutId={`block-${block.id}`}
                       onClick={() => setExpandedId(expanded ? null : block.id)}
-                      className={`rounded-xl border p-4 cursor-pointer transition-colors border-l-4 ${cfg.bg} ${cfg.border} ${cfg.accentBorder} hover:border-white/20`}
+                      className={`rounded-xl border p-4 cursor-pointer transition-colors border-l-4 ${cfg.bg} ${cfg.border} ${cfg.accentBorder} hover:border-neutral-50/20`}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
@@ -374,7 +374,7 @@ export default function TimelinePage() {
               className="absolute top-0 bottom-0 w-px bg-blue-400/30 pointer-events-none"
               style={{ left: `${timePercent}%` }}
             >
-              <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap time-indicator">
+              <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-blue-500 text-neutral-50 text-xs px-2 py-0.5 rounded-full whitespace-nowrap time-indicator">
                 Now
               </div>
             </div>

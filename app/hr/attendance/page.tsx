@@ -34,14 +34,14 @@ export default function HRAttendancePage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Attendance Overview</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Attendance Overview</h1>
           <p className="text-neutral-400 mt-1">Team attendance for the selected date</p>
         </div>
         <input
           type="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="glass border border-white/10 rounded-xl px-4 py-2 text-white text-sm"
+          className="glass border border-neutral-50/10 rounded-xl px-4 py-2 text-neutral-50 text-sm"
         />
       </div>
 
@@ -53,29 +53,29 @@ export default function HRAttendancePage() {
         ].map(({ label, value, color }, i) => (
           <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="glass rounded-xl p-4 border border-white/8 text-center">
+            className="glass rounded-xl p-4 border border-neutral-50/8 text-center">
             <div className={`text-3xl font-bold ${color}`}>{value}</div>
             <div className="text-neutral-500 text-xs mt-1">{label}</div>
           </motion.div>
         ))}
       </div>
 
-      <div className="glass rounded-2xl p-6 border border-white/8 space-y-2">
+      <div className="glass rounded-2xl p-6 border border-neutral-50/8 space-y-2">
         {loading ? (
-          Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-14 bg-white/3 rounded-xl animate-pulse" />)
+          Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-14 bg-neutral-50/3 rounded-xl animate-pulse" />)
         ) : records.length === 0 ? (
           <div className="text-center py-10 text-neutral-500">No attendance records for this date</div>
         ) : records.map((r, i) => (
           <motion.div key={r.id}
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
-            className="flex items-center justify-between p-4 rounded-xl hover:bg-white/3 transition-all border border-transparent hover:border-white/6"
+            className="flex items-center justify-between p-4 rounded-xl hover:bg-neutral-50/3 transition-all border border-transparent hover:border-neutral-50/6"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-neutral-50">
                 {getInitials(r.employee.user.name)}
               </div>
               <div>
-                <p className="text-white text-sm font-medium">{r.employee.user.name}</p>
+                <p className="text-neutral-50 text-sm font-medium">{r.employee.user.name}</p>
                 <p className="text-neutral-500 text-xs">{r.employee.user.employeeId}</p>
               </div>
             </div>

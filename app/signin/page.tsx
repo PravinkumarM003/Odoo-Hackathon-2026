@@ -52,11 +52,11 @@ export default function SignInPage() {
         >
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg glow-blue">
-              <Zap className="w-5 h-5 text-white" fill="white" />
+              <Zap className="w-5 h-5 text-neutral-50" fill="white" />
             </div>
             <span className="text-2xl font-bold font-['Space_Grotesk'] gradient-text">Dayflow</span>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome back</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 mb-2">Welcome back</h1>
           <p className="text-neutral-400 text-sm">Every workday, perfectly aligned.</p>
         </motion.div>
 
@@ -84,7 +84,7 @@ export default function SignInPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@dayflow.demo"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-neutral-500 focus:border-blue-500/50 focus:bg-white/8 transition-all text-sm"
+                  className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-4 py-3 text-neutral-50 placeholder-neutral-500 focus:border-blue-500/50 focus:bg-neutral-50/8 transition-all text-sm"
                 />
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function SignInPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-white placeholder-neutral-500 focus:border-blue-500/50 focus:bg-white/8 transition-all text-sm"
+                  className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-10 py-3 text-neutral-50 placeholder-neutral-500 focus:border-blue-500/50 focus:bg-neutral-50/8 transition-all text-sm"
                 />
                 <button
                   type="button"
@@ -118,10 +118,10 @@ export default function SignInPage() {
               disabled={loading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-neutral-50 font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-neutral-50/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
                   Sign in
@@ -132,20 +132,20 @@ export default function SignInPage() {
           </form>
 
           {/* Demo credentials */}
-          <div className="mt-6 p-4 rounded-xl bg-white/3 border border-white/6">
+          <div className="mt-6 p-4 rounded-xl bg-neutral-50/3 border border-neutral-50/6">
             <p className="text-xs text-neutral-500 mb-2 font-medium uppercase tracking-wider">Demo accounts</p>
             <div className="space-y-1.5">
               <button
                 type="button"
                 onClick={() => { setEmail("hr@dayflow.demo"); setPassword("Demo@123"); }}
-                className="w-full text-left text-xs text-neutral-400 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                className="w-full text-left text-xs text-neutral-400 hover:text-neutral-50 transition-colors py-1 px-2 rounded-lg hover:bg-neutral-50/5"
               >
                 <span className="text-blue-400 font-medium">HR: </span>hr@dayflow.demo / Demo@123
               </button>
               <button
                 type="button"
                 onClick={() => { setEmail("employee@dayflow.demo"); setPassword("Demo@123"); }}
-                className="w-full text-left text-xs text-neutral-400 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5"
+                className="w-full text-left text-xs text-neutral-400 hover:text-neutral-50 transition-colors py-1 px-2 rounded-lg hover:bg-neutral-50/5"
               >
                 <span className="text-purple-400 font-medium">Employee: </span>employee@dayflow.demo / Demo@123
               </button>

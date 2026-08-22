@@ -60,7 +60,7 @@ export default function HREmployeesPage() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Employees</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Employees</h1>
           <p className="text-neutral-400 mt-1">{employees.length} team members</p>
         </div>
       </div>
@@ -73,14 +73,14 @@ export default function HREmployeesPage() {
           placeholder="Search by name, department, or ID..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full glass border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white placeholder-neutral-500 focus:border-blue-500/50 transition-all text-sm"
+          className="w-full glass border border-neutral-50/10 rounded-xl pl-11 pr-4 py-3 text-neutral-50 placeholder-neutral-500 focus:border-blue-500/50 transition-all text-sm"
         />
       </div>
 
       {/* Grid */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1,2,3,4,5,6].map(i => <div key={i} className="h-32 bg-white/3 rounded-2xl animate-pulse" />)}
+          {[1,2,3,4,5,6].map(i => <div key={i} className="h-32 bg-neutral-50/3 rounded-2xl animate-pulse" />)}
         </div>
       ) : (
         <motion.div
@@ -100,16 +100,16 @@ export default function HREmployeesPage() {
                 whileHover={{ y: -4, scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => openEmployee(emp)}
-                className="glass glass-hover rounded-2xl p-5 border border-white/8 card-shine cursor-pointer group"
+                className="glass glass-hover rounded-2xl p-5 border border-neutral-50/8 card-shine cursor-pointer group"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-neutral-50 font-bold text-sm shrink-0 shadow-lg">
                     {getInitials(emp.name)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="min-w-0">
-                        <p className="text-white font-semibold truncate">{emp.name}</p>
+                        <p className="text-neutral-50 font-semibold truncate">{emp.name}</p>
                         <p className="text-neutral-500 text-xs">{emp.employeeId}</p>
                       </div>
                       <ChevronRight className="w-4 h-4 text-neutral-700 group-hover:text-neutral-400 transition-colors shrink-0 mt-0.5" />
@@ -147,15 +147,15 @@ export default function HREmployeesPage() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-md glass border-l border-white/10 overflow-y-auto"
+              className="relative w-full max-w-md glass border-l border-neutral-50/10 overflow-y-auto"
             >
-              <div className="p-6 border-b border-white/8">
+              <div className="p-6 border-b border-neutral-50/8">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-xl">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-neutral-50 font-bold text-xl shadow-xl">
                     {getInitials(selected.name)}
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-white">{selected.name}</h2>
+                    <h2 className="text-xl font-bold text-neutral-50">{selected.name}</h2>
                     <p className="text-neutral-400 text-sm">{selected.designation}</p>
                     <p className="text-neutral-600 text-xs mt-0.5">{selected.employeeId}</p>
                   </div>
@@ -165,7 +165,7 @@ export default function HREmployeesPage() {
               <div className="p-6 space-y-5">
                 {detailLoading ? (
                   <div className="space-y-3">
-                    {[1,2,3].map(i => <div key={i} className="h-16 bg-white/3 rounded-xl animate-pulse" />)}
+                    {[1,2,3].map(i => <div key={i} className="h-16 bg-neutral-50/3 rounded-xl animate-pulse" />)}
                   </div>
                 ) : empDetail ? (
                   <>
@@ -175,12 +175,12 @@ export default function HREmployeesPage() {
                         { icon: Briefcase, label: "Designation", value: selected.designation },
                         { icon: Mail, label: "Email", value: selected.email },
                       ].map(({ icon: Icon, label, value }) => (
-                        <div key={label} className="glass rounded-xl p-3 border border-white/6 col-span-1">
+                        <div key={label} className="glass rounded-xl p-3 border border-neutral-50/6 col-span-1">
                           <div className="flex items-center gap-2 mb-1">
                             <Icon className="w-3.5 h-3.5 text-neutral-500" />
                             <span className="text-xs text-neutral-500">{label}</span>
                           </div>
-                          <p className="text-sm text-white truncate">{value}</p>
+                          <p className="text-sm text-neutral-50 truncate">{value}</p>
                         </div>
                       ))}
                     </div>
@@ -219,7 +219,7 @@ export default function HREmployeesPage() {
 
               <button
                 onClick={() => { setSelected(null); setEmpDetail(null); }}
-                className="absolute top-4 right-4 text-neutral-500 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10"
+                className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-50 transition-colors w-8 h-8 flex items-center justify-center rounded-lg hover:bg-neutral-50/10"
               >
                 ✕
               </button>

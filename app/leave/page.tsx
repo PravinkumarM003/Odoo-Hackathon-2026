@@ -77,7 +77,7 @@ export default function LeavePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Leave Management</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Leave Management</h1>
           <p className="text-neutral-400 mt-1">Apply for and track your leave requests</p>
         </div>
         {user?.role === "EMPLOYEE" && (
@@ -86,7 +86,7 @@ export default function LeavePage() {
             onClick={() => setShowForm(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/25 animate-gradient"
+          className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-neutral-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/25 animate-gradient"
         >
             Apply Leave
           </motion.button>
@@ -111,14 +111,14 @@ export default function LeavePage() {
             <motion.div
               key={label}
               whileHover={{ scale: 1.02 }}
-              className="glass rounded-xl p-4 border border-white/8 card-shine card-interactive"
+              className="glass rounded-xl p-4 border border-neutral-50/8 card-shine card-interactive"
             >
               <div className="text-xs text-neutral-500 uppercase tracking-wider mb-2">{label} Leave</div>
               <div className="flex items-end gap-1 mb-2">
                 <span className={`text-3xl font-bold ${color.split(" ")[0]} animate-float`} style={{ animationDelay: `${Math.random()}s` }}>{data.remaining}</span>
                 <span className="text-neutral-500 text-sm mb-1">/ {data.total} days</span>
               </div>
-              <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-1.5 rounded-full bg-neutral-50/10 overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${(data.remaining / data.total) * 100}%` }}
@@ -133,8 +133,8 @@ export default function LeavePage() {
       )}
 
       {/* Leave history */}
-      <div className="glass rounded-2xl p-6 border border-white/8">
-        <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <div className="glass rounded-2xl p-6 border border-neutral-50/8">
+        <h2 className="text-neutral-50 font-semibold mb-4 flex items-center gap-2">
           <Calendar className="w-4 h-4 text-blue-400" />
           Leave History
         </h2>
@@ -155,13 +155,13 @@ export default function LeavePage() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="flex items-start justify-between p-4 rounded-xl bg-white/3 border border-white/6 hover:border-white/10 transition-all"
+                    className="flex items-start justify-between p-4 rounded-xl bg-neutral-50/3 border border-neutral-50/6 hover:border-neutral-50/10 transition-all"
                   >
                     <div className="flex items-start gap-3">
                       <Icon className="w-5 h-5 mt-0.5 shrink-0 text-neutral-400" />
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-white font-medium text-sm">{leave.type} Leave</span>
+                          <span className="text-neutral-50 font-medium text-sm">{leave.type} Leave</span>
                           <motion.span
                             layout
                             className={`text-xs px-2 py-0.5 rounded-full font-medium ${cfg.cls}`}
@@ -205,11 +205,11 @@ export default function LeavePage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-md glass rounded-2xl p-6 border border-white/15 card-shine"
+              className="relative w-full max-w-md glass rounded-2xl p-6 border border-neutral-50/15 card-shine"
             >
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-white font-semibold text-lg">Apply for Leave</h3>
-                <button onClick={() => setShowForm(false)} className="text-neutral-500 hover:text-white transition-colors">
+                <h3 className="text-neutral-50 font-semibold text-lg">Apply for Leave</h3>
+                <button onClick={() => setShowForm(false)} className="text-neutral-500 hover:text-neutral-50 transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -224,7 +224,7 @@ export default function LeavePage() {
                   <select
                     value={form.type}
                     onChange={e => setForm(p => ({ ...p, type: e.target.value }))}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm"
+                    className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 text-sm"
                   >
                     {LEAVE_TYPES.map(t => <option key={t} value={t} className="bg-neutral-900">{t}</option>)}
                   </select>
@@ -238,7 +238,7 @@ export default function LeavePage() {
                       onChange={e => setForm(p => ({ ...p, startDate: e.target.value }))}
                       required
                       min={new Date().toISOString().split("T")[0]}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm"
+                      className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 text-sm"
                     />
                   </div>
                   <div>
@@ -249,7 +249,7 @@ export default function LeavePage() {
                       onChange={e => setForm(p => ({ ...p, endDate: e.target.value }))}
                       required
                       min={form.startDate || new Date().toISOString().split("T")[0]}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm"
+                      className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 text-sm"
                     />
                   </div>
                 </div>
@@ -261,14 +261,14 @@ export default function LeavePage() {
                     placeholder="Briefly describe the reason..."
                     required
                     rows={3}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-neutral-500 text-sm resize-none"
+                    className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 placeholder-neutral-500 text-sm resize-none"
                   />
                 </div>
                 <div className="flex gap-3 pt-1">
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="flex-1 py-2.5 rounded-xl border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 text-sm transition-all"
+                    className="flex-1 py-2.5 rounded-xl border border-neutral-50/10 text-neutral-400 hover:text-neutral-50 hover:border-neutral-50/20 text-sm transition-all"
                   >
                     Cancel
                   </button>
@@ -277,7 +277,7 @@ export default function LeavePage() {
                     disabled={loading}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-neutral-50 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50"
                   >
                     {loading ? "Submitting..." : "Submit Request"}
                   </motion.button>

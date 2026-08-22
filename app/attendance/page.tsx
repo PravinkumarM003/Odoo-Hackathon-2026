@@ -30,7 +30,7 @@ export default function AttendancePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Attendance</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Attendance</h1>
         <p className="text-neutral-400 mt-1">Your attendance history (last 14 days)</p>
       </div>
 
@@ -46,7 +46,7 @@ export default function AttendancePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="glass rounded-xl p-4 border border-white/8 text-center"
+            className="glass rounded-xl p-4 border border-neutral-50/8 text-center"
           >
             <div className={`text-3xl font-bold ${color}`}>{value}</div>
             <div className="text-neutral-500 text-xs mt-1">{label}</div>
@@ -55,10 +55,10 @@ export default function AttendancePage() {
       </div>
 
       {/* Records */}
-      <div className="glass rounded-2xl p-6 border border-white/8 space-y-2">
+      <div className="glass rounded-2xl p-6 border border-neutral-50/8 space-y-2">
         {loading ? (
           Array.from({ length: 7 }).map((_, i) => (
-            <div key={i} className="h-14 bg-white/3 rounded-xl animate-pulse" />
+            <div key={i} className="h-14 bg-neutral-50/3 rounded-xl animate-pulse" />
           ))
         ) : records.length === 0 ? (
           <div className="text-center py-10 text-neutral-500">No attendance records found</div>
@@ -69,14 +69,14 @@ export default function AttendancePage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="flex items-center justify-between p-4 rounded-xl hover:bg-white/3 transition-colors border border-transparent hover:border-white/6"
+              className="flex items-center justify-between p-4 rounded-xl hover:bg-neutral-50/3 transition-colors border border-transparent hover:border-neutral-50/6"
             >
               <div className="flex items-center gap-3">
                 {r.checkIn
                   ? <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
                   : <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />}
                 <div>
-                  <p className="text-white text-sm font-medium">{formatDate(r.date)}</p>
+                  <p className="text-neutral-50 text-sm font-medium">{formatDate(r.date)}</p>
                   <p className="text-neutral-500 text-xs">
                     {new Date(r.date).toLocaleDateString("en-US", { weekday: "long" })}
                   </p>

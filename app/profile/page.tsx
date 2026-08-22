@@ -65,11 +65,11 @@ export default function ProfilePage() {
     finally { setLoading(false); }
   }
 
-  if (!profile) return <div className="max-w-2xl mx-auto h-64 bg-white/3 rounded-2xl animate-pulse" />;
+  if (!profile) return <div className="max-w-2xl mx-auto h-64 bg-neutral-50/3 rounded-2xl animate-pulse" />;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">My Profile</h1>
+      <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">My Profile</h1>
 
       {success && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -82,10 +82,10 @@ export default function ProfilePage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-2xl p-6 border border-white/8 card-shine"
+        className="glass rounded-2xl p-6 border border-neutral-50/8 card-shine"
       >
         <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-xl overflow-hidden shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-neutral-50 text-2xl font-bold shadow-xl overflow-hidden shrink-0">
             {editing ? (
               <>
                 <input type="file" id="photo-upload" className="hidden" accept="image/*" onChange={handlePhotoChange} />
@@ -96,7 +96,7 @@ export default function ProfilePage() {
                     getInitials(profile.name)
                   )}
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] uppercase tracking-wider text-white">Upload</span>
+                    <span className="text-[10px] uppercase tracking-wider text-neutral-50">Upload</span>
                   </div>
                 </label>
               </>
@@ -109,7 +109,7 @@ export default function ProfilePage() {
             )}
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+            <h2 className="text-2xl font-bold text-neutral-50">{profile.name}</h2>
             <p className="text-neutral-400">{profile.designation}</p>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
@@ -126,9 +126,9 @@ export default function ProfilePage() {
       </motion.div>
 
       {/* Details */}
-      <div className="glass rounded-2xl p-6 border border-white/8">
+      <div className="glass rounded-2xl p-6 border border-neutral-50/8">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-white font-semibold">Details</h3>
+          <h3 className="text-neutral-50 font-semibold">Details</h3>
           {!editing && (
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -162,7 +162,7 @@ export default function ProfilePage() {
                         }
                         setForm(p => ({ ...p, [key]: val }));
                       }}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-4 py-2.5 text-neutral-50 text-sm focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder={key === 'phone' ? '10-digit number' : ''}
                     />
                 </div>
@@ -172,12 +172,12 @@ export default function ProfilePage() {
             
             <div className="flex gap-3 pt-1">
               <button type="button" onClick={() => setEditing(false)}
-                className="flex-1 py-2.5 rounded-xl border border-white/10 text-neutral-400 text-sm hover:text-white transition-all">
+                className="flex-1 py-2.5 rounded-xl border border-neutral-50/10 text-neutral-400 text-sm hover:text-neutral-50 transition-all">
                 Cancel
               </button>
               <motion.button type="submit" disabled={loading}
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50">
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-neutral-50 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50">
                 <Save className="w-4 h-4" />
                 {loading ? "Saving..." : "Save Changes"}
               </motion.button>
@@ -192,11 +192,11 @@ export default function ProfilePage() {
               { icon: Phone, label: "Phone", value: profile.phone ?? "Not set" },
               { icon: MapPin, label: "Address", value: profile.address ?? "Not set" },
             ].map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/3 transition-colors">
+              <div key={label} className="flex items-center gap-3 p-3 rounded-xl hover:bg-neutral-50/3 transition-colors">
                 <Icon className="w-4 h-4 text-neutral-500 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-neutral-500">{label}</p>
-                  <p className="text-sm text-white truncate">{value}</p>
+                  <p className="text-sm text-neutral-50 truncate">{value}</p>
                 </div>
               </div>
             ))}

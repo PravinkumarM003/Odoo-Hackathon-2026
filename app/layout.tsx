@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AnimatedBackground } from "@/components/Animations";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,10 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-neutral-950 min-h-screen antialiased text-neutral-200">
-        <AnimatedBackground />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <AnimatedBackground />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -50,11 +50,11 @@ export default function SignUpPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
-              <Zap className="w-5 h-5 text-white" fill="white" />
+              <Zap className="w-5 h-5 text-neutral-50" fill="white" />
             </div>
             <span className="text-2xl font-bold gradient-text font-['Space_Grotesk']">Dayflow</span>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Join your team</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 mb-2">Join your team</h1>
           <p className="text-neutral-400 text-sm">Create your employee account</p>
         </div>
 
@@ -91,7 +91,7 @@ export default function SignUpPage() {
                   value={form.department}
                   onChange={update("department")}
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white focus:border-blue-500/50 transition-all text-sm appearance-none"
+                  className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-4 py-3 text-neutral-50 focus:border-blue-500/50 transition-all text-sm appearance-none"
                 >
                   <option value="" className="bg-neutral-900">Select department</option>
                   {DEPARTMENTS.map(d => (
@@ -110,10 +110,10 @@ export default function SignUpPage() {
               disabled={loading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 mt-2"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-neutral-50 font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 mt-2"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-neutral-50/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>Create account <ArrowRight className="w-4 h-4" /></>
               )}
@@ -139,7 +139,7 @@ function Field({ icon, label, id, ...props }: { icon: React.ReactNode; label: st
         <input
           id={id}
           {...props}
-          className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-neutral-500 focus:border-blue-500/50 focus:bg-white/8 transition-all text-sm"
+          className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-4 py-3 text-neutral-50 placeholder-neutral-500 focus:border-blue-500/50 focus:bg-neutral-50/8 transition-all text-sm"
         />
       </div>
     </div>

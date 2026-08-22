@@ -55,20 +55,20 @@ export default function HRAnnouncementsPage() {
     }
   }
 
-  if (loading) return <div className="max-w-4xl mx-auto"><div className="h-24 bg-white/3 rounded-2xl animate-pulse" /></div>;
+  if (loading) return <div className="max-w-4xl mx-auto"><div className="h-24 bg-neutral-50/3 rounded-2xl animate-pulse" /></div>;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Announcements</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Announcements</h1>
           <p className="text-neutral-400 mt-1">Broadcast messages to the entire company</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowForm(true)}
-          className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"
+          className="btn-glow flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-neutral-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"
         >
           <Plus className="w-4 h-4" />
           New Announcement
@@ -82,31 +82,31 @@ export default function HRAnnouncementsPage() {
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -20, height: 0 }}
             onSubmit={handleSubmit}
-            className="glass rounded-2xl p-6 border border-white/8 space-y-4"
+            className="glass rounded-2xl p-6 border border-neutral-50/8 space-y-4"
           >
             <div>
               <label className="block text-sm font-medium text-neutral-400 mb-1">Title</label>
               <input required value={title} onChange={e => setTitle(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="e.g. Townhall Meeting This Friday" />
             </div>
             <div>
               <label className="block text-sm font-medium text-neutral-400 mb-1">Message</label>
               <textarea required value={content} onChange={e => setContent(e.target.value)} rows={4}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors resize-none"
                 placeholder="Write your announcement..." />
             </div>
             <div>
               <label className="block text-sm font-medium text-neutral-400 mb-1">Priority</label>
               <select value={priority} onChange={e => setPriority(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors [&>option]:bg-neutral-900">
+                className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors [&>option]:bg-neutral-900">
                 <option value="NORMAL">Normal</option>
                 <option value="HIGH">High Priority</option>
               </select>
             </div>
             <div className="flex justify-end gap-3 pt-2">
-              <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 rounded-xl text-neutral-400 hover:bg-white/5 transition-colors text-sm font-medium">Cancel</button>
-              <button type="submit" disabled={submitting} className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-colors text-sm font-semibold disabled:opacity-50">
+              <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 rounded-xl text-neutral-400 hover:bg-neutral-50/5 transition-colors text-sm font-medium">Cancel</button>
+              <button type="submit" disabled={submitting} className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-neutral-50 transition-colors text-sm font-semibold disabled:opacity-50">
                 {submitting ? "Posting..." : "Post Announcement"}
               </button>
             </div>
@@ -116,7 +116,7 @@ export default function HRAnnouncementsPage() {
 
       <div className="space-y-4 stagger-children">
         {announcements.length === 0 ? (
-          <div className="glass rounded-2xl p-12 text-center border border-white/8">
+          <div className="glass rounded-2xl p-12 text-center border border-neutral-50/8">
             <Megaphone className="w-10 h-10 mx-auto mb-3 text-neutral-600" />
             <p className="text-neutral-500">No announcements posted yet</p>
           </div>
@@ -127,7 +127,7 @@ export default function HRAnnouncementsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className={`glass rounded-2xl p-5 border ${ann.priority === "HIGH" ? "border-red-500/20 bg-red-500/5" : "border-white/8"} card-interactive`}
+              className={`glass rounded-2xl p-5 border ${ann.priority === "HIGH" ? "border-red-500/20 bg-red-500/5" : "border-neutral-50/8"} card-interactive`}
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -135,7 +135,7 @@ export default function HRAnnouncementsPage() {
                     <Megaphone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold flex items-center gap-2">
+                    <h3 className="text-neutral-50 font-semibold flex items-center gap-2">
                       {ann.title}
                       {ann.priority === "HIGH" && <span className="text-[10px] uppercase bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">Important</span>}
                     </h3>

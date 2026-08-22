@@ -40,7 +40,7 @@ export default function DirectoryPage() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Colleague Directory</h1>
+          <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Colleague Directory</h1>
           <p className="text-neutral-400 mt-1">Connect with your team members across the company</p>
         </div>
         
@@ -51,14 +51,14 @@ export default function DirectoryPage() {
             placeholder="Search by name, role or dept..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"
+            className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-9 pr-4 py-2.5 text-sm text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors"
           />
         </div>
       </div>
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1,2,3,4,5,6].map(i => <div key={i} className="h-32 bg-white/3 rounded-2xl animate-pulse" />)}
+          {[1,2,3,4,5,6].map(i => <div key={i} className="h-32 bg-neutral-50/3 rounded-2xl animate-pulse" />)}
         </div>
       ) : (
         <motion.div 
@@ -75,18 +75,18 @@ export default function DirectoryPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 300, damping: 25, delay: i * 0.05 }}
-                  className="glass rounded-2xl p-5 border border-white/8 flex flex-col h-full card-interactive"
+                  className="glass rounded-2xl p-5 border border-neutral-50/8 flex flex-col h-full card-interactive"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="relative">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white shadow-lg">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold text-neutral-50 shadow-lg">
                           {emp.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
                         </div>
                         <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-[#0a0a0a] ${emp.isOnline ? "bg-green-500" : "bg-neutral-500"}`} />
                       </div>
                       <div>
-                        <h3 className="text-white font-semibold">{emp.name}</h3>
+                        <h3 className="text-neutral-50 font-semibold">{emp.name}</h3>
                         <p className="text-xs text-neutral-400">{emp.designation}</p>
                       </div>
                     </div>
@@ -107,7 +107,7 @@ export default function DirectoryPage() {
                       <Mail className="w-3.5 h-3.5 text-neutral-500" />
                       {emp.email}
                     </div>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-neutral-50/5">
                       <div className="flex items-center gap-1.5 text-neutral-500">
                         <Hash className="w-3.5 h-3.5" />
                         {emp.employeeId}

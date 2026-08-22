@@ -9,6 +9,7 @@ import {
   ArrowLeft, Home, Sparkles, Settings, Moon, Sun, Megaphone
 } from "lucide-react";
 import { SessionProvider, useSession } from "@/context/SessionContext";
+import { useTheme } from "next-themes";
 
 const navEmployee = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -67,14 +68,14 @@ function Breadcrumbs() {
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="flex items-center gap-1.5 text-xs"
     >
-      <Link href="/dashboard" className="text-neutral-500 hover:text-white transition-colors">
+      <Link href="/dashboard" className="text-neutral-500 hover:text-neutral-50 transition-colors">
         <Home className="w-3.5 h-3.5" />
       </Link>
       {crumbs.map((crumb, i) => (
         <div key={crumb.href} className="flex items-center gap-1.5">
           <ChevronRight className="w-3 h-3 text-neutral-700" />
           {crumb.isLast || crumb.href === "/hr" ? (
-            <span className="text-white font-medium">{crumb.label}</span>
+            <span className="text-neutral-50 font-medium">{crumb.label}</span>
           ) : (
             <Link href={crumb.href} className="text-neutral-500 hover:text-neutral-300 transition-colors">
               {crumb.label}
@@ -94,6 +95,11 @@ function AppShell({ children }: { children: React.ReactNode }) {
   const [unread, setUnread] = useState(0);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const { theme, setTheme, systemTheme } = useTheme();
+  
+  // Prevent hydration mismatch for theme toggle
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [isDark, setIsDark] = useState(true);
 
   const isDashboard = pathname === "/dashboard";
@@ -132,7 +138,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-xl"
         >
-          <Zap className="w-7 h-7 text-white" fill="white" />
+          <Zap className="w-7 h-7 text-neutral-50" fill="white" />
         </motion.div>
         <motion.p
           initial={{ opacity: 0 }}
@@ -164,10 +170,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
         initial={false}
         animate={{ x: sidebarOpen ? 0 : "-100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 w-64 glass border-r border-white/8 z-40 flex flex-col lg:translate-x-0 lg:static lg:z-auto"
+        className="fixed left-0 top-0 bottom-0 w-64 glass border-r border-neutral-50/8 z-40 flex flex-col lg:translate-x-0 lg:static lg:z-auto"
       >
         {/* Logo */}
-        <div className="p-5 border-b border-white/8">
+        <div className="p-5 border-b border-neutral-50/8">
           <Link href="/dashboard" className="flex items-center gap-3 group">
             <motion.div
               whileHover={{ rotate: 12, scale: 1.1 }}
@@ -175,7 +181,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
               className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg"
             >
-              <Zap className="w-4 h-4 text-white" fill="white" />
+              <Zap className="w-4 h-4 text-neutral-50" fill="white" />
             </motion.div>
             <div>
               <div className="text-lg font-bold gradient-text font-['Space_Grotesk'] group-hover:opacity-80 transition-opacity tracking-tight">Dayflow.OS</div>
@@ -199,8 +205,8 @@ function AppShell({ children }: { children: React.ReactNode }) {
                   whileTap={{ scale: 0.97 }}
                   className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
                     active
-                      ? "bg-gradient-to-r from-blue-600/25 to-purple-600/15 text-white border border-blue-500/25"
-                      : "text-neutral-400 hover:text-white hover:bg-white/5"
+                      ? "bg-gradient-to-r from-blue-600/25 to-purple-600/15 text-neutral-50 border border-blue-500/25"
+                      : "text-neutral-400 hover:text-neutral-50 hover:bg-neutral-50/5"
                   }`}
                 >
                   {/* Hover indicator */}
@@ -212,7 +218,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                        className="absolute inset-0 rounded-xl bg-white/5 border border-white/8"
+                        className="absolute inset-0 rounded-xl bg-neutral-50/5 border border-neutral-50/8"
                       />
                     )}
                   </AnimatePresence>
@@ -230,14 +236,14 @@ function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User card */}
-        <div className="p-4 border-t border-white/8">
+        <div className="p-4 border-t border-neutral-50/8">
           <Link href="/profile">
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/3 mb-2 hover:bg-white/6 transition-all cursor-pointer border border-transparent hover:border-white/10"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-50/3 mb-2 hover:bg-neutral-50/6 transition-all cursor-pointer border border-transparent hover:border-neutral-50/10"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white overflow-hidden shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-neutral-50 overflow-hidden shrink-0">
                 {user.photoUrl ? (
                   <img src={user.photoUrl} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
@@ -245,7 +251,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-white truncate">{user.name}</div>
+                <div className="text-sm font-medium text-neutral-50 truncate">{user.name}</div>
                 <div className="text-xs text-neutral-500 truncate">{user.department}</div>
               </div>
               <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -265,13 +271,13 @@ function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-0">
         {/* Header with breadcrumbs & back button */}
-        <header className="h-16 glass border-b border-white/8 flex items-center gap-4 px-6 shrink-0 relative z-50">
-          <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-neutral-400 hover:text-white transition-colors">
+        <header className="h-16 glass border-b border-neutral-50/8 flex items-center gap-4 px-6 shrink-0 relative z-50">
+          <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-neutral-400 hover:text-neutral-50 transition-colors">
             <Menu className="w-5 h-5" />
           </button>
 
           {isDashboard && (
-            <div className="font-bold text-white text-lg tracking-tight font-['Space_Grotesk'] hidden lg:block mr-2">
+            <div className="font-bold text-neutral-50 text-lg tracking-tight font-['Space_Grotesk'] hidden lg:block mr-2">
               Dayflow<span className="text-blue-400">.OS</span>
             </div>
           )}
@@ -284,7 +290,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
               onClick={() => router.back()}
               whileHover={{ x: -3, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors text-sm group"
+              className="flex items-center gap-1.5 text-neutral-400 hover:text-neutral-50 transition-colors text-sm group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
               <span className="hidden sm:inline">Back</span>
@@ -302,9 +308,26 @@ function AppShell({ children }: { children: React.ReactNode }) {
             {time.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })}
           </div>
 
-          {/* Notifications */}
+          {/* Notifications & Theme Toggle */}
           <div className="flex items-center gap-4">
-            <Link href="/notifications" className="relative text-neutral-400 hover:text-white transition-colors">
+            
+            {/* Theme Toggle */}
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" || (theme === "system" && systemTheme === "dark") ? "light" : "dark")}
+                className="relative text-neutral-400 hover:text-neutral-50 transition-colors focus:outline-none"
+              >
+                <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 200, damping: 10 }}>
+                  {theme === "dark" || (theme === "system" && systemTheme === "dark") ? (
+                    <Moon className="w-5 h-5" />
+                  ) : (
+                    <Sun className="w-5 h-5" />
+                  )}
+                </motion.div>
+              </button>
+            )}
+
+            <Link href="/notifications" className="relative text-neutral-400 hover:text-neutral-50 transition-colors">
               <motion.div whileHover={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 0.4 }}>
                 <Bell className="w-5 h-5" />
               </motion.div>
@@ -313,7 +336,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 20 }}
-                  className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white font-bold"
+                  className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-neutral-50 font-bold"
                 >
                   {unread > 9 ? "9+" : unread}
                 </motion.span>
@@ -324,7 +347,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
             <div className="relative">
               <button 
                 onClick={() => setSettingsOpen(!settingsOpen)}
-                className="text-neutral-400 hover:text-white transition-colors focus:outline-none"
+                className="text-neutral-400 hover:text-neutral-50 transition-colors focus:outline-none"
               >
                 <motion.div whileHover={{ rotate: 90 }} transition={{ type: "spring", stiffness: 200, damping: 10 }}>
                   <Settings className="w-5 h-5" />
@@ -344,10 +367,10 @@ function AppShell({ children }: { children: React.ReactNode }) {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className="absolute right-0 mt-3 w-56 bg-neutral-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden z-50 p-2"
+                      className="absolute right-0 mt-3 w-56 bg-neutral-900 rounded-2xl border border-neutral-50/10 shadow-2xl overflow-hidden z-50 p-2"
                     >
-                      <div className="px-3 py-2 border-b border-white/5 mb-2 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold text-white overflow-hidden shrink-0">
+                      <div className="px-3 py-2 border-b border-neutral-50/5 mb-2 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-sm font-bold text-neutral-50 overflow-hidden shrink-0">
                           {user.photoUrl ? (
                             <img src={user.photoUrl} alt="Profile" className="w-full h-full object-cover" />
                           ) : (
@@ -355,12 +378,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
                           )}
                         </div>
                         <div className="min-w-0">
-                          <div className="text-sm font-medium text-white truncate">{user.name}</div>
+                          <div className="text-sm font-medium text-neutral-50 truncate">{user.name}</div>
                           <div className="text-xs text-neutral-500 truncate">{user.email}</div>
                         </div>
                       </div>
                       
-                      <Link href="/profile" onClick={() => setSettingsOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/10 transition-colors text-sm">
+                      <Link href="/profile" onClick={() => setSettingsOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-300 hover:text-neutral-50 hover:bg-neutral-50/10 transition-colors text-sm">
                         <User className="w-4 h-4" /> My Profile
                       </Link>
                       
@@ -369,13 +392,13 @@ function AppShell({ children }: { children: React.ReactNode }) {
                           setIsDark(!isDark);
                           document.documentElement.classList.toggle('dark');
                         }}
-                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/10 transition-colors text-sm text-left"
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-300 hover:text-neutral-50 hover:bg-neutral-50/10 transition-colors text-sm text-left"
                       >
                         {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} 
                         {isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                       </button>
 
-                      <div className="h-px bg-white/5 my-2" />
+                      <div className="h-px bg-neutral-50/5 my-2" />
 
                       <button onClick={signOut} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-sm text-left">
                         <LogOut className="w-4 h-4" /> Sign out

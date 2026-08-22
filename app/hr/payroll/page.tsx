@@ -51,7 +51,7 @@ export default function HRPayrollPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Payroll Management</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Payroll Management</h1>
         <p className="text-neutral-400 mt-1">View and update employee compensation</p>
       </div>
 
@@ -66,15 +66,15 @@ export default function HRPayrollPage() {
         {records.map((r, i) => (
           <motion.div key={r.id}
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-            className="glass rounded-2xl p-5 border border-white/8 card-shine"
+            className="glass rounded-2xl p-5 border border-neutral-50/8 card-shine"
           >
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-neutral-50 text-sm font-bold">
                   {getInitials(r.employee.user.name)}
                 </div>
                 <div>
-                  <p className="text-white font-semibold">{r.employee.user.name}</p>
+                  <p className="text-neutral-50 font-semibold">{r.employee.user.name}</p>
                   <p className="text-neutral-500 text-xs">{r.employee.user.employeeId}</p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function HRPayrollPage() {
                         type="number"
                         value={editForm[key]}
                         onChange={e => setEditForm(p => ({ ...p, [key]: Number(e.target.value) }))}
-                        className="w-28 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-white text-sm"
+                        className="w-28 bg-neutral-50/5 border border-neutral-50/10 rounded-lg px-3 py-1.5 text-neutral-50 text-sm"
                       />
                     </div>
                   ))}
@@ -99,7 +99,7 @@ export default function HRPayrollPage() {
                       <Save className="w-3 h-3" />{loading ? "Saving..." : "Save"}
                     </motion.button>
                     <button onClick={() => setEditing(null)}
-                      className="flex items-center gap-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-neutral-400 text-xs hover:text-white">
+                      className="flex items-center gap-1 px-3 py-2 rounded-lg bg-neutral-50/5 border border-neutral-50/10 text-neutral-400 text-xs hover:text-neutral-50">
                       <X className="w-3 h-3" />Cancel
                     </button>
                   </div>
@@ -121,7 +121,7 @@ export default function HRPayrollPage() {
                   ))}
                   <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                     onClick={() => startEdit(r)}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-neutral-400 hover:text-white hover:border-white/20 text-xs transition-all">
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-neutral-50/5 border border-neutral-50/10 text-neutral-400 hover:text-neutral-50 hover:border-neutral-50/20 text-xs transition-all">
                     <Edit2 className="w-3 h-3" />Edit
                   </motion.button>
                 </div>

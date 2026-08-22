@@ -22,7 +22,7 @@ export default function PayrollPage() {
   }, []);
 
   if (loading) return <div className="max-w-2xl mx-auto space-y-4">
-    {[1,2,3].map(i => <div key={i} className="h-24 bg-white/3 rounded-2xl animate-pulse" />)}
+    {[1,2,3].map(i => <div key={i} className="h-24 bg-neutral-50/3 rounded-2xl animate-pulse" />)}
   </div>;
 
   if (!payroll) return (
@@ -41,7 +41,7 @@ export default function PayrollPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Payroll</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Payroll</h1>
         <p className="text-neutral-400 mt-1">Your compensation breakdown</p>
       </div>
 
@@ -76,7 +76,7 @@ export default function PayrollPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ x: 4, scale: 1.01 }}
-              className="glass rounded-xl p-5 border border-white/8 flex items-center justify-between card-interactive"
+              className="glass rounded-xl p-5 border border-neutral-50/8 flex items-center justify-between card-interactive"
             >
               <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
@@ -88,7 +88,7 @@ export default function PayrollPage() {
                     item.type === "negative" ? "text-red-400" : "text-blue-400"
                   }`} />
                 </div>
-                <span className="text-white font-medium">{item.label}</span>
+                <span className="text-neutral-50 font-medium">{item.label}</span>
               </div>
               <span className={`text-lg font-bold ${
                 item.type === "positive" ? "text-green-400" :
@@ -106,7 +106,7 @@ export default function PayrollPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="glass rounded-xl p-5 border border-white/8"
+        className="glass rounded-xl p-5 border border-neutral-50/8"
       >
         <h3 className="text-neutral-400 text-sm font-medium mb-3">Monthly Breakdown</h3>
         <div className="grid grid-cols-3 gap-4 text-center">
@@ -117,7 +117,7 @@ export default function PayrollPage() {
           ].map(({ label, value }) => (
             <div key={label}>
               <p className="text-neutral-500 text-xs mb-1">{label} / month</p>
-              <p className="text-white font-semibold">{formatCurrency(Math.round(value / 12))}</p>
+              <p className="text-neutral-50 font-semibold">{formatCurrency(Math.round(value / 12))}</p>
             </div>
           ))}
         </div>

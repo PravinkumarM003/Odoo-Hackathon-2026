@@ -75,7 +75,7 @@ export default function HRLeavesPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-white font-['Space_Grotesk']">Leave Requests</h1>
+        <h1 className="text-3xl font-bold text-neutral-50 font-['Space_Grotesk']">Leave Requests</h1>
         <p className="text-neutral-400 mt-1">Review and action employee leave requests</p>
       </div>
 
@@ -87,14 +87,14 @@ export default function HRLeavesPage() {
       )}
 
       {/* Filter tabs */}
-      <div className="flex gap-2 p-1 glass rounded-xl border border-white/8 w-fit">
+      <div className="flex gap-2 p-1 glass rounded-xl border border-neutral-50/8 w-fit">
         {filterOptions.map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
               filter === f
-                ? "bg-white/10 text-white shadow-sm"
+                ? "bg-neutral-50/10 text-neutral-50 shadow-sm"
                 : "text-neutral-500 hover:text-neutral-300"
             }`}
           >
@@ -110,7 +110,7 @@ export default function HRLeavesPage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="glass rounded-2xl p-12 text-center border border-white/8"
+              className="glass rounded-2xl p-12 text-center border border-neutral-50/8"
             >
               <Clock className="w-10 h-10 mx-auto mb-3 text-neutral-600" />
               <p className="text-neutral-500">No {filter.toLowerCase()} leave requests</p>
@@ -124,16 +124,16 @@ export default function HRLeavesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ delay: i * 0.04 }}
-                className="glass rounded-2xl p-5 border border-white/8 card-shine card-interactive"
+                className="glass rounded-2xl p-5 border border-neutral-50/8 card-shine card-interactive"
               >
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-neutral-50 shrink-0">
                         {leave.employee.user.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
                       </div>
                       <div>
-                        <span className="text-white font-semibold">{leave.employee.user.name}</span>
+                        <span className="text-neutral-50 font-semibold">{leave.employee.user.name}</span>
                         <span className="text-neutral-500 text-xs ml-2">{leave.employee.user.employeeId}</span>
                       </div>
                       <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium border ${
@@ -213,9 +213,9 @@ export default function HRLeavesPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-md glass rounded-2xl p-6 border border-white/15"
+              className="relative w-full max-w-md glass rounded-2xl p-6 border border-neutral-50/15"
             >
-              <h3 className="text-white font-semibold text-lg mb-4">
+              <h3 className="text-neutral-50 font-semibold text-lg mb-4">
                 {actionType === "approve" ? "✅ Approve Leave" : "❌ Reject Leave"}
               </h3>
 
@@ -234,14 +234,14 @@ export default function HRLeavesPage() {
                     onChange={e => setComment(e.target.value)}
                     placeholder={actionType === "reject" ? "Required: provide a reason for rejection" : "Optional: add a note for the employee"}
                     rows={3}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder-neutral-500 text-sm resize-none"
+                    className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl pl-10 pr-4 py-2.5 text-neutral-50 placeholder-neutral-500 text-sm resize-none"
                   />
                 </div>
               </div>
 
               <div className="flex gap-3">
                 <button onClick={() => { setActionId(null); setActionType(null); }}
-                  className="flex-1 py-2.5 rounded-xl border border-white/10 text-neutral-400 hover:text-white text-sm transition-all">
+                  className="flex-1 py-2.5 rounded-xl border border-neutral-50/10 text-neutral-400 hover:text-neutral-50 text-sm transition-all">
                   Cancel
                 </button>
                 <motion.button
