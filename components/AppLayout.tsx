@@ -173,21 +173,16 @@ function AppShell({ children }: { children: React.ReactNode }) {
         initial={false}
         animate={{ x: sidebarOpen ? 0 : "-100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 w-64 glass border-r border-neutral-50/8 z-40 flex flex-col lg:translate-x-0 lg:static lg:z-auto"
+        className="fixed left-0 top-0 bottom-0 w-64 bg-[#0a0c10] border-r border-neutral-800 z-40 flex flex-col lg:translate-x-0 lg:static lg:z-auto"
       >
         {/* Logo */}
-        <div className="p-5 border-b border-neutral-50/8">
+        <div className="p-6 border-b border-neutral-800">
           <Link href="/dashboard" className="flex items-center gap-3 group">
-            <motion.div
-              whileHover={{ rotate: 12, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg"
-            >
-              <Zap className="w-4 h-4 text-neutral-50" fill="white" />
-            </motion.div>
+            <div className="w-9 h-9 rounded-xl bg-[#5f48f9] flex items-center justify-center shadow-lg">
+              <Zap className="w-4 h-4 text-white" fill="white" />
+            </div>
             <div>
-              <div className="text-lg font-bold gradient-text font-display group-hover:opacity-80 transition-opacity tracking-tight">Dayflow.OS</div>
+              <div className="text-lg font-bold text-[#e1e2ec] font-display tracking-tight">Dayflow.OS</div>
               <div className="text-xs text-neutral-500">{user.role === "HR" ? "Admin Console" : "Employee Portal"}</div>
             </div>
           </Link>
@@ -200,37 +195,19 @@ function AppShell({ children }: { children: React.ReactNode }) {
             return (
               <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}>
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{  type: "spring", stiffness: 300, damping: 25 }}
-                  onMouseEnter={() => setHoveredNav(item.href)}
-                  onMouseLeave={() => setHoveredNav(null)}
                   whileTap={{ scale: 0.97 }}
-                  className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
+                  className={`relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${
                     active
-                      ? "bg-gradient-to-r from-blue-600/25 to-purple-600/15 text-neutral-50 border border-blue-500/25"
-                      : "text-neutral-400 hover:text-neutral-50 hover:bg-neutral-50/5"
+                      ? "bg-[#252342] text-white"
+                      : "text-neutral-400 hover:text-neutral-200 hover:bg-white/5"
                   }`}
                 >
-                  {/* Hover indicator */}
-                  <AnimatePresence>
-                    {hoveredNav === item.href && !active && (
-                      <motion.div
-                        layoutId="nav-hover"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                        className="absolute inset-0 rounded-xl bg-neutral-50/5 border border-neutral-50/8"
-                      />
-                    )}
-                  </AnimatePresence>
-                  <item.icon className={`w-4 h-4 relative z-10 ${active ? "text-blue-400" : ""}`} />
-                  <span className="font-medium relative z-10">{item.label}</span>
+                  <item.icon className={`w-[18px] h-[18px] ${active ? "text-[#7584e4]" : ""}`} />
+                  <span className={active ? "font-semibold" : "font-medium"}>{item.label}</span>
                   {active && (
-                    <motion.div layoutId="active-pill" className="ml-auto">
-                      <ChevronRight className="w-3 h-3 text-blue-400" />
-                    </motion.div>
+                    <div className="ml-auto">
+                      <ChevronRight className="w-3.5 h-3.5 text-[#7584e4]" />
+                    </div>
                   )}
                 </motion.div>
               </Link>
@@ -239,14 +216,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User card */}
-        <div className="p-4 border-t border-neutral-50/8">
+        <div className="p-5 border-t border-neutral-800">
           <Link href="/profile">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-50/3 mb-2 hover:bg-neutral-50/6 transition-all cursor-pointer border border-transparent hover:border-neutral-50/10"
+            <div
+              className="flex items-center gap-3 mb-4 cursor-pointer group"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-neutral-50 overflow-hidden shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#5f48f9] flex items-center justify-center text-xs font-bold text-white overflow-hidden shrink-0">
                 {user.photoUrl ? (
                   <img src={user.photoUrl} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
@@ -254,20 +229,21 @@ function AppShell({ children }: { children: React.ReactNode }) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-neutral-50 truncate">{user.name}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-semibold text-white truncate">{user.name}</div>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold tracking-wide ${
+                    user.role === "HR"
+                      ? "bg-blue-500/20 text-blue-400"
+                      : "bg-[#332454] text-[#a491e5]"
+                  }`}>{user.role}</span>
+                </div>
                 <div className="text-xs text-neutral-500 truncate">{user.department}</div>
               </div>
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                user.role === "HR"
-                  ? "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                  : "bg-purple-500/20 text-purple-400 border border-purple-500/30"
-              }`}>{user.role}</span>
-            </motion.div>
+            </div>
           </Link>
-          <motion.button onClick={signOut} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-400 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm">
-            <LogOut className="w-4 h-4" />Sign out
-          </motion.button>
+          <button onClick={signOut} className="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors text-sm font-medium ml-1">
+            <LogOut className="w-[18px] h-[18px]" />Sign out
+          </button>
         </div>
       </motion.aside>
 
