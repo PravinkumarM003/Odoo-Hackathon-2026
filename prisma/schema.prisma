@@ -21,6 +21,7 @@ model User {
 
   employee      Employee?
   notifications Notification[]
+  announcements Announcement[]
 }
 
 model Employee {
@@ -97,4 +98,15 @@ model WorkBlock {
   description String
 
   employee Employee @relation(fields: [employeeId], references: [userId])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  authorId  String
+  priority  String   @default("NORMAL") // NORMAL, HIGH
+  createdAt DateTime @default(now())
+
+  author User @relation(fields: [authorId], references: [id])
 }

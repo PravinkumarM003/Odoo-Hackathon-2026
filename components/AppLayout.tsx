@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Clock, Calendar, DollarSign, User, Users,
   ClipboardList, LogOut, Zap, Bell, ChevronRight, Menu,
-  ArrowLeft, Home, Sparkles, Settings, Moon, Sun
+  ArrowLeft, Home, Sparkles, Settings, Moon, Sun, Megaphone
 } from "lucide-react";
 import { SessionProvider, useSession } from "@/context/SessionContext";
 
-const navEmployee = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/directory", icon: Users, label: "Directory" },
   { href: "/attendance", icon: Clock, label: "Attendance" },
   { href: "/leave", icon: Calendar, label: "Leave" },
   { href: "/payroll", icon: DollarSign, label: "Payroll" },
@@ -21,9 +21,11 @@ const navEmployee = [
 
 const navHR = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/directory", icon: Users, label: "Directory" },
   { href: "/hr/employees", icon: Users, label: "Employees" },
   { href: "/hr/attendance", icon: Clock, label: "Attendance" },
   { href: "/hr/leaves", icon: ClipboardList, label: "Leave Requests" },
+  { href: "/hr/announcements", icon: Megaphone, label: "Announcements" },
   { href: "/hr/payroll", icon: DollarSign, label: "Payroll" },
   { href: "/timeline", icon: Zap, label: "Timeline" },
 ];
@@ -40,6 +42,8 @@ const ROUTE_LABELS: Record<string, string> = {
   hr: "HR",
   employees: "Employees",
   leaves: "Leave Requests",
+  announcements: "Announcements",
+  directory: "Directory",
 };
 
 function Breadcrumbs() {

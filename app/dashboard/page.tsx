@@ -3,13 +3,14 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, Variants } from "framer-motion";
 import {
   Clock, Calendar, DollarSign, TrendingUp, CheckCircle, XCircle,
-  AlertCircle, Bell, ChevronRight, Users, Zap, Target, Activity
+  AlertCircle, Bell, ChevronRight, Users, Zap, Target, Activity, Megaphone
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "@/context/SessionContext";
 import { attendanceApi, leaveApi, payrollApi, notificationsApi, hrApi } from "@/lib/api-client";
 import { formatTime, formatDate, formatCurrency } from "@/lib/utils";
 import { SpotlightCard } from "@/components/Animations";
+import { QuickActions } from "@/components/QuickActions";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -59,6 +60,8 @@ export default function DashboardPage() {
   const [leaveBalance, setLeaveBalance] = useState<Record<string, { total: number; used: number; remaining: number }> | null>(null);
   const [payroll, setPayroll] = useState<{ netSalary: number } | null>(null);
   const [notifications, setNotifications] = useState<Array<{ id: string; type: string; message: string; read: boolean; createdAt: string }>>([]);
+  const [announcements, setAnnouncements] = useState<Array<{ id: string; title: string; content: string; priority: string; createdAt: string; author: { name: string } }>>([]);
+  const [earlyBirds, setEarlyBirds] = useState<Array<{ id: string; name: string; checkIn: string; designation: string }>>([]);
   const [hrData, setHrData] = useState<{
     stats: { totalEmployees: number; attendanceRate: number; pendingLeaves: number; missingCheckouts: number };
     pendingLeaves: Array<{ id: string; employeeName: string; type: string; startDate: string; endDate: string }>;
@@ -72,12 +75,16 @@ export default function DashboardPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [att, notifs] = await Promise.all([
+      const [att, notifs, anns, birds] = await Promise.all([
         attendanceApi.getToday() as Promise<Record<string, unknown> | null>,
         notificationsApi.getMy() as Promise<Array<{ id: string; type: string; message: string; read: boolean; createdAt: string }>>,
+        fetch("/api/announcements").then(r => r.ok ? r.json() : []) as Promise<typeof announcements>,
+        fetch("/api/dashboard/leaderboard").then(r => r.ok ? r.json() : []) as Promise<typeof earlyBirds>
       ]);
       setTodayAttendance(att);
       setNotifications(notifs);
+      setAnnouncements(anns);
+      setEarlyBirds(birds);
 
       if (!isHR) {
         const [bal, pay] = await Promise.all([
@@ -142,16 +149,19 @@ export default function DashboardPage() {
               {now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
             </p>
           </div>
-          <Link href="/timeline">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="hidden sm:flex items-center gap-2 glass glass-hover px-4 py-2 rounded-xl text-sm text-neutral-300 hover:text-white border border-white/8"
-            >
-              <Zap className="w-4 h-4 text-blue-400" />
-              View Timeline
-            </motion.div>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/timeline">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="hidden sm:flex items-center gap-2 glass glass-hover px-4 py-2 rounded-xl text-sm text-neutral-300 hover:text-white border border-white/8"
+              >
+                <Zap className="w-4 h-4 text-blue-400" />
+                View Timeline
+              </motion.div>
+            </Link>
+            <QuickActions />
+          </div>
         </div>
       </motion.div>
 
@@ -313,6 +323,30 @@ export default function DashboardPage() {
           </motion.div>
         </SpotlightCard>
 
+          {/* Announcements */}
+          {announcements.length > 0 && (
+            <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine">
+              <div className="flex items-center gap-2 mb-4">
+                <Megaphone className="w-5 h-5 text-purple-400" />
+                <h2 className="text-lg font-bold text-white">Company Announcements</h2>
+              </div>
+              <div className="space-y-3">
+                {announcements.slice(0, 3).map((ann) => (
+                  <div key={ann.id} className={`p-4 rounded-xl border ${ann.priority === "HIGH" ? "bg-red-500/10 border-red-500/20" : "bg-white/3 border-white/5"}`}>
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="font-semibold text-white flex items-center gap-2">
+                        {ann.title}
+                        {ann.priority === "HIGH" && <span className="text-[10px] uppercase bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold">Important</span>}
+                      </h3>
+                      <span className="text-xs text-neutral-500">{formatDate(ann.createdAt)}</span>
+                    </div>
+                    <p className="text-sm text-neutral-400 line-clamp-2">{ann.content}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <StatCard
@@ -341,42 +375,72 @@ export default function DashboardPage() {
             />
           </div>
 
-          {/* Notifications */}
-          {notifications.length > 0 && (
-            <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-blue-400" />
-                  <h2 className="text-white font-semibold">Recent Notifications</h2>
-                  {unread > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                      {unread}
-                    </span>
-                  )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Gamified Leaderboard */}
+            {earlyBirds.length > 0 && (
+              <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8 card-shine">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/20">
+                    <Target className="w-4 h-4 text-white" />
+                  </div>
+                  <h2 className="text-white font-semibold">Today's Early Birds</h2>
                 </div>
-              </div>
-              <div className="space-y-2">
-                {notifications.slice(0, 4).map((n) => (
-                  <div
-                    key={n.id}
-                    className={`p-3 rounded-xl text-sm border transition-all ${
-                      n.read
-                        ? "bg-white/2 border-white/5 text-neutral-500"
-                        : "bg-blue-500/8 border-blue-500/20 text-neutral-200"
-                    }`}
-                  >
-                    <div className="flex items-start gap-2">
-                      {!n.read && <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />}
-                      <div>
-                        <p className={n.read ? "text-neutral-500" : "text-neutral-200"}>{n.message}</p>
-                        <p className="text-xs text-neutral-600 mt-0.5">{formatDate(n.createdAt)}</p>
+                <div className="space-y-3">
+                  {earlyBirds.map((bird, idx) => (
+                    <div key={bird.id} className="flex items-center justify-between p-3 rounded-xl bg-white/3 border border-white/5 card-interactive">
+                      <div className="flex items-center gap-3">
+                        <div className="text-xl font-bold font-['Space_Grotesk'] w-6 text-center text-neutral-600">#{idx + 1}</div>
+                        <div>
+                          <div className="text-sm font-semibold text-white">{bird.name}</div>
+                          <div className="text-xs text-neutral-500">{bird.designation}</div>
+                        </div>
+                      </div>
+                      <div className="text-sm font-medium text-green-400 bg-green-500/10 px-2.5 py-1 rounded-lg border border-green-500/20">
+                        {formatTime(bird.checkIn)}
                       </div>
                     </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Notifications */}
+            {notifications.length > 0 && (
+              <motion.div variants={item} className="glass rounded-2xl p-6 border border-white/8">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Bell className="w-4 h-4 text-blue-400" />
+                    <h2 className="text-white font-semibold">Recent Notifications</h2>
+                    {unread > 0 && (
+                      <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                        {unread}
+                      </span>
+                    )}
                   </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+                </div>
+                <div className="space-y-2">
+                  {notifications.slice(0, 4).map((n) => (
+                    <div
+                      key={n.id}
+                      className={`p-3 rounded-xl text-sm border transition-all ${
+                        n.read
+                          ? "bg-white/2 border-white/5 text-neutral-500"
+                          : "bg-blue-500/8 border-blue-500/20 text-neutral-200"
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        {!n.read && <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />}
+                        <div>
+                          <p className={n.read ? "text-neutral-500" : "text-neutral-200"}>{n.message}</p>
+                          <p className="text-xs text-neutral-600 mt-0.5">{formatDate(n.createdAt)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
       )}
     </div>
