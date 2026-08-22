@@ -82,18 +82,18 @@ body {
 
 /* Glass */
 .glass {
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .glass-hover {
   transition: background 200ms ease, border-color 200ms ease;
 }
 .glass-hover:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255,255,255,0.2);
 }
 
 /* Gradient text */
