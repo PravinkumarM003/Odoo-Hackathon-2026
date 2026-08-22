@@ -51,7 +51,9 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json(directory);
+    const res = NextResponse.json(directory);
+    res.headers.set("Cache-Control", "private, max-age=60, stale-while-revalidate=300");
+    return res;
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch directory" }, { status: 500 });
   }

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Zap, Plus, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Zap, CheckCircle2, AlertCircle } from "lucide-react";
 import { workBlocksApi, hrApi } from "@/lib/api-client";
 import { useSession } from "@/context/SessionContext";
 
@@ -11,6 +11,7 @@ export default function LogActivityPage() {
   const [submitting, setSubmitting] = useState(false);
   const [hrEmployees, setHrEmployees] = useState<{id: string, name: string}[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const fetchEmployees = useCallback(async () => {
     if (sessionLoading) return;
@@ -28,18 +29,27 @@ export default function LogActivityPage() {
     fetchEmployees();
   }, [fetchEmployees]);
 
+  function showToast(type: "success" | "error", message: string) {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 4000);
+  }
+
   async function handleAddActivity(e: React.FormEvent) {
     e.preventDefault();
+    if (newBlock.startTime >= newBlock.endTime) {
+      showToast("error", "End time must be after start time.");
+      return;
+    }
     setSubmitting(true);
     try {
       await workBlocksApi.addWorkBlock({
         ...newBlock,
         employeeId: newBlock.employeeId || undefined
       });
-      alert("Activity logged successfully!");
+      showToast("success", "Activity logged successfully!");
       setNewBlock({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
-    } catch (err) {
-      alert("Failed to log activity.");
+    } catch {
+      showToast("error", "Failed to log activity. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -56,6 +66,25 @@ export default function LogActivityPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
+      {/* Toast notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl shadow-2xl text-sm font-medium ${
+              toast.type === "success"
+                ? "bg-green-500/15 border border-green-500/30 text-green-400"
+                : "bg-red-500/15 border border-red-500/30 text-red-400"
+            }`}
+          >
+            {toast.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+            {toast.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
@@ -107,11 +136,11 @@ export default function LogActivityPage() {
             </div>
             <div className="flex-[2]">
               <label className="block text-xs font-medium text-neutral-400 mb-1">Description</label>
-              <input type="text" required placeholder="What did you work on?" value={newBlock.description} onChange={e => setNewBlock({...newBlock, description: e.target.value})} className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors" />
+              <input type="text" required placeholder="What did you work on?" value={newBlock.description} onChange={e => setNewBlock({...newBlock, description: e.target.value})} className="w-full bg-neutral-50/5 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-neutral-600" />
             </div>
           </div>
           <div className="pt-4 flex justify-end">
-            <button type="submit" disabled={submitting} className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-medium transition-all disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed">
               {submitting ? "Saving..." : "Save Activity"}
             </button>
           </div>

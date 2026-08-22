@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import AppLayout from "./AppLayout";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -10,8 +11,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const isPublicRoute = pathname === "/" || pathname === "/signin" || pathname === "/signup";
 
   if (isPublicRoute) {
-    return <>{children}</>;
+    return <ErrorBoundary>{children}</ErrorBoundary>;
   }
 
-  return <AppLayout>{children}</AppLayout>;
+  return (
+    <ErrorBoundary>
+      <AppLayout>{children}</AppLayout>
+    </ErrorBoundary>
+  );
 }

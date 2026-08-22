@@ -14,18 +14,20 @@ export async function GET(req: NextRequest) {
     orderBy: { name: "asc" },
   });
 
-  return apiSuccess(
-    employees.map((u) => ({
-      id: u.id,
-      employeeId: u.employeeId,
-      email: u.email,
-      name: u.name,
-      role: u.role,
-      createdAt: u.createdAt,
-      department: u.employee?.department,
-      designation: u.employee?.designation,
-      phone: u.employee?.phone,
-      photoUrl: u.employee?.photoUrl,
-    }))
-  );
+  const result = employees.map((u) => ({
+    id: u.id,
+    employeeId: u.employeeId,
+    email: u.email,
+    name: u.name,
+    role: u.role,
+    createdAt: u.createdAt,
+    department: u.employee?.department,
+    designation: u.employee?.designation,
+    phone: u.employee?.phone,
+    photoUrl: u.employee?.photoUrl,
+  }));
+
+  const response = apiSuccess(result);
+  response.headers.set("Cache-Control", "private, max-age=60, stale-while-revalidate=300");
+  return response;
 }

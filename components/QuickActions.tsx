@@ -16,7 +16,10 @@ export function QuickActions() {
     try {
       await attendanceApi.checkOut();
       setOpen(false);
-      window.location.reload();
+      router.refresh();
+      router.push("/dashboard");
+    } catch {
+      // silently fail — user can try again
     } finally {
       setLoading(false);
     }
