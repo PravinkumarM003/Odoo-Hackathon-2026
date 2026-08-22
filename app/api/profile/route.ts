@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 // PATCH /api/profile
 export async function PATCH(req: NextRequest) {
   const session = await requireAuth(req);
-  const { name, phone, address } = await req.json();
+  const { name, phone, address, photoUrl } = await req.json();
 
   const updateData: Record<string, unknown> = {};
   const employeeUpdateData: Record<string, unknown> = {};
@@ -39,6 +39,7 @@ export async function PATCH(req: NextRequest) {
   if (name) updateData.name = name.trim();
   if (phone !== undefined) employeeUpdateData.phone = phone;
   if (address !== undefined) employeeUpdateData.address = address;
+  if (photoUrl !== undefined) employeeUpdateData.photoUrl = photoUrl;
 
   await prisma.$transaction([
     prisma.user.update({
