@@ -33,18 +33,21 @@ export async function GET(req: NextRequest) {
 // POST /api/workblocks
 export async function POST(req: NextRequest) {
   const session = await requireAuth(req);
-  const { date, startTime, endTime, category, description } = await req.json();
+  const { date, startTime, endTime, category, description, employeeId } = await req.json();
 
   if (!startTime || !endTime || !category || !description) {
     return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
   }
+
+  // If HR provides an employeeId, assign it to that employee. Otherwise, assign it to the logged in user.
+  const targetEmployeeId = (session.role === "HR" && employeeId) ? employeeId : session.userId;
 
   const blockDate = date ? new Date(date) : new Date();
   blockDate.setHours(0, 0, 0, 0);
 
   const newBlock = await prisma.workBlock.create({
     data: {
-      employeeId: session.userId,
+      employeeId: targetEmployeeId,
       date: blockDate,
       startTime,
       endTime,

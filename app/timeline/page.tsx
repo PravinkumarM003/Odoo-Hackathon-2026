@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { Zap, Clock, Calendar, ChevronRight, Plus, X } from "lucide-react";
-import { workBlocksApi, attendanceApi } from "@/lib/api-client";
+import { workBlocksApi, attendanceApi, hrApi } from "@/lib/api-client";
 import { getDayStory, timeToPercent, getCurrentTimePercent, formatTime } from "@/lib/utils";
 import { useSession } from "@/context/SessionContext";
 
@@ -135,21 +135,30 @@ export default function TimelinePage() {
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const [isAdding, setIsAdding] = useState(false);
-  const [newBlock, setNewBlock] = useState({ startTime: "", endTime: "", category: "DEEP_WORK", description: "" });
+  const [newBlock, setNewBlock] = useState({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
   const [submitting, setSubmitting] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [hrEmployees, setHrEmployees] = useState<{id: string, name: string}[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
-      const [wb, att] = await Promise.all([
-        workBlocksApi.getMy() as Promise<WorkBlock[]>,
-        attendanceApi.getToday() as Promise<Attendance | null>,
-      ]);
-      setBlocks(wb);
-      setAttendance(att);
+      const promises: any[] = [
+        workBlocksApi.getMy(),
+        attendanceApi.getToday(),
+      ];
+      if (user?.role === "HR") {
+        promises.push(hrApi.getEmployees());
+      }
+      
+      const results = await Promise.all(promises);
+      setBlocks(results[0] as WorkBlock[]);
+      setAttendance(results[1] as Attendance | null);
+      if (user?.role === "HR") {
+        setHrEmployees(results[2] as {id: string, name: string}[]);
+      }
     } catch { /* ignore */ }
     finally { setLoading(false); }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     fetchData();
@@ -176,9 +185,12 @@ export default function TimelinePage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await workBlocksApi.addWorkBlock(newBlock);
+      await workBlocksApi.addWorkBlock({
+        ...newBlock,
+        employeeId: newBlock.employeeId || undefined
+      });
       setIsAdding(false);
-      setNewBlock({ startTime: "", endTime: "", category: "DEEP_WORK", description: "" });
+      setNewBlock({ startTime: "", endTime: "", category: "DEEP_WORK", description: "", employeeId: "" });
       fetchData();
     } catch (err) {
       alert("Failed to add activity.");
@@ -248,6 +260,17 @@ export default function TimelinePage() {
               </button>
               <h2 className="text-xl font-semibold text-neutral-50 mb-4">Log Activity</h2>
               <form onSubmit={handleAddActivity} className="space-y-4">
+                {user?.role === "HR" && (
+                  <div>
+                    <label className="block text-xs font-medium text-neutral-400 mb-1">Assign to Employee (Optional)</label>
+                    <select value={newBlock.employeeId} onChange={e => setNewBlock({...newBlock, employeeId: e.target.value})} className="w-full bg-neutral-900 border border-neutral-50/10 rounded-xl px-4 py-2.5 text-neutral-50 focus:outline-none focus:border-blue-500 transition-colors appearance-none">
+                      <option value="">Assign to myself</option>
+                      {hrEmployees.map(emp => (
+                        <option key={emp.id} value={emp.id}>{emp.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
                 <div className="flex gap-4">
                   <div className="flex-1">
                     <label className="block text-xs font-medium text-neutral-400 mb-1">Start Time</label>

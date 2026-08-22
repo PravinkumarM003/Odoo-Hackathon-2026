@@ -92,7 +92,7 @@ export const workBlocksApi = {
     request(`/api/workblocks${date ? `?date=${date}` : ""}`),
   getForEmployee: (employeeId: string, date?: string) =>
     request(`/api/workblocks/${employeeId}${date ? `?date=${date}` : ""}`),
-  addWorkBlock: (data: { date?: string; startTime: string; endTime: string; category: string; description: string }) =>
+  addWorkBlock: (data: { date?: string; startTime: string; endTime: string; category: string; description: string; employeeId?: string }) =>
     request("/api/workblocks", { method: "POST", body: JSON.stringify(data) }),
 };
 
