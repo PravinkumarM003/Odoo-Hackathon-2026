@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
     await prisma.notification.create({
       data: {
         userId: hr.id,
+        senderId: employee?.id,
         type: "LEAVE_REQUEST",
         message: `${employee?.name ?? "An employee"} has applied for ${type} leave from ${start.toLocaleDateString()} to ${end.toLocaleDateString()}. Action required.`,
       },

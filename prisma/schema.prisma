@@ -19,9 +19,10 @@ model User {
   name         String
   createdAt    DateTime @default(now())
 
-  employee      Employee?
-  notifications Notification[]
-  announcements Announcement[]
+  employee          Employee?
+  notifications     Notification[] @relation("UserNotifications")
+  sentNotifications Notification[] @relation("NotificationSender")
+  announcements     Announcement[]
 }
 
 model Employee {
@@ -46,6 +47,7 @@ model Attendance {
   checkIn    DateTime?
   checkOut   DateTime?
   status     String    @default("PRESENT")
+  location   String?
 
   employee Employee @relation(fields: [employeeId], references: [userId])
 }
@@ -80,12 +82,14 @@ model Payroll {
 model Notification {
   id        String   @id @default(cuid())
   userId    String
+  senderId  String?
   type      String
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user   User  @relation("UserNotifications", fields: [userId], references: [id])
+  sender User? @relation("NotificationSender", fields: [senderId], references: [id])
 }
 
 model WorkBlock {

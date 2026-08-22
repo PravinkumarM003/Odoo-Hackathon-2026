@@ -33,6 +33,7 @@ export async function PATCH(
     prisma.notification.create({
       data: {
         userId: leave.employeeId,
+        senderId: session.userId,
         type: "LEAVE_APPROVED",
         message: `Your ${leave.type} leave request (${leave.startDate.toLocaleDateString()} – ${leave.endDate.toLocaleDateString()}) has been approved. ${comment ? comment : ""}`,
       },

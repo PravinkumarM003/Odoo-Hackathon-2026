@@ -59,7 +59,14 @@ export default function DashboardPage() {
   const [todayAttendance, setTodayAttendance] = useState<Record<string, unknown> | null>(null);
   const [leaveBalance, setLeaveBalance] = useState<Record<string, { total: number; used: number; remaining: number }> | null>(null);
   const [payroll, setPayroll] = useState<{ netSalary: number } | null>(null);
-  const [notifications, setNotifications] = useState<Array<{ id: string; type: string; message: string; read: boolean; createdAt: string }>>([]);
+  const [notifications, setNotifications] = useState<Array<{ 
+    id: string; 
+    type: string; 
+    message: string; 
+    read: boolean; 
+    createdAt: string;
+    sender?: { name: string; employee?: { photoUrl: string | null } | null } | null;
+  }>>([]);
   const [announcements, setAnnouncements] = useState<Array<{ id: string; title: string; content: string; priority: string; createdAt: string; author: { name: string } }>>([]);
   const [earlyBirds, setEarlyBirds] = useState<Array<{ id: string; name: string; checkIn: string; designation: string }>>([]);
   const [hrData, setHrData] = useState<{
@@ -437,10 +444,25 @@ export default function DashboardPage() {
                         >
                           <div className="flex items-start gap-2">
                             {!n.read && <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />}
-                            <div>
-                              <p className={n.read ? "text-neutral-500" : "text-neutral-200"}>{n.message}</p>
-                              <p className="text-xs text-neutral-600 mt-0.5">{formatDate(n.createdAt)}</p>
+                            <div className="flex-1 min-w-0">
+                            <p className="text-sm text-neutral-200 truncate">{n.message}</p>
+                            
+                            <div className="flex items-center gap-2 mt-1">
+                              {n.sender && (
+                                <div className="flex items-center gap-1 shrink-0">
+                                  <div className="w-3.5 h-3.5 rounded-full overflow-hidden bg-blue-500/30 flex items-center justify-center shrink-0">
+                                    {n.sender.employee?.photoUrl ? (
+                                      <img src={n.sender.employee.photoUrl} alt="" className="w-full h-full object-cover" />
+                                    ) : (
+                                      <span className="text-[8px] font-bold text-neutral-300">{n.sender.name.slice(0, 2).toUpperCase()}</span>
+                                    )}
+                                  </div>
+                                  <span className="text-[10px] text-neutral-400 font-medium">{n.sender.name.split(" ")[0]}</span>
+                                </div>
+                              )}
+                              <span className="text-[10px] text-neutral-500">{formatTime(n.createdAt)}</span>
                             </div>
+                          </div>
                           </div>
                         </div>
                       ))}

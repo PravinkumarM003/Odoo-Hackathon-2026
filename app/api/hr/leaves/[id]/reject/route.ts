@@ -37,8 +37,9 @@ export async function PATCH(
     prisma.notification.create({
       data: {
         userId: leave.employeeId,
+        senderId: session.userId,
         type: "LEAVE_REJECTED",
-        message: `Your ${leave.type} leave request (${leave.startDate.toLocaleDateString()} – ${leave.endDate.toLocaleDateString()}) was not approved. Reason: ${comment.trim()}`,
+        message: `Your ${leave.type} leave request (${leave.startDate.toLocaleDateString()} – ${leave.endDate.toLocaleDateString()}) has been rejected. ${comment ? comment : ""}`,
       },
     }),
   ]);

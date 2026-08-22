@@ -10,6 +10,16 @@ export async function GET(req: NextRequest) {
     where: { userId: session.userId },
     orderBy: { createdAt: "desc" },
     take: 20,
+    include: {
+      sender: {
+        select: {
+          name: true,
+          employee: {
+            select: { photoUrl: true }
+          }
+        },
+      },
+    },
   });
 
   return apiSuccess(notifications);

@@ -11,6 +11,10 @@ interface Notification {
   message: string;
   read: boolean;
   createdAt: string;
+  sender?: {
+    name: string;
+    employee?: { photoUrl: string | null } | null;
+  } | null;
 }
 
 const TYPE_ICONS: Record<string, string> = {
@@ -83,7 +87,22 @@ export default function NotificationsPage() {
               <p className={`text-sm leading-relaxed ${n.read ? "text-neutral-500" : "text-neutral-200"}`}>
                 {n.message}
               </p>
-              <p className="text-xs text-neutral-600 mt-1">{formatDate(n.createdAt)}</p>
+              
+              <div className="flex items-center gap-2 mt-2">
+                {n.sender && (
+                  <div className="flex items-center gap-1.5 shrink-0 bg-neutral-50/5 rounded-full pl-1 pr-2 py-1">
+                    <div className="w-4 h-4 rounded-full overflow-hidden bg-blue-500/30 flex items-center justify-center shrink-0">
+                      {n.sender.employee?.photoUrl ? (
+                        <img src={n.sender.employee.photoUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-[9px] font-bold text-neutral-300">{n.sender.name.slice(0, 2).toUpperCase()}</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-neutral-400 font-medium">From {n.sender.name.split(" ")[0]}</span>
+                  </div>
+                )}
+                <span className="text-[10px] text-neutral-500">{formatDate(n.createdAt)}</span>
+              </div>
             </div>
             {!n.read && (
               <div className="w-2 h-2 rounded-full bg-blue-400 mt-1.5 shrink-0" />
