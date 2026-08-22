@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  employeeId   String   @unique
+  email        String   @unique
+  passwordHash String
+  role         String   @default("EMPLOYEE")
+  name         String
+  createdAt    DateTime @default(now())
+
+  employee      Employee?
+  notifications Notification[]
+}
+
+model Employee {
+  userId      String  @id
+  department  String
+  designation String
+  phone       String?
+  address     String?
+  photoUrl    String?
+
+  user          User           @relation(fields: [userId], references: [id])
+  attendance    Attendance[]
+  leaveRequests LeaveRequest[]
+  payroll       Payroll?
+  workBlocks    WorkBlock[]
+}
+
+model Attendance {
+  id         String    @id @default(cuid())
+  employeeId String
+  date       DateTime
+  checkIn    DateTime?
+  checkOut   DateTime?
+  status     String    @default("PRESENT")
+
+  employee Employee @relation(fields: [employeeId], references: [userId])
+}
+
+model LeaveRequest {
+  id              String   @id @default(cuid())
+  employeeId      String
+  type            String
+  startDate       DateTime
+  endDate         DateTime
+  remarks         String
+  status          String   @default("PENDING")
+  reviewerComment String?
+  reviewedBy      String?
+  createdAt       DateTime @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [userId])
+}
+
+model Payroll {
+  id         String   @id @default(cuid())
+  employeeId String   @unique
+  basic      Float
+  allowances Float
+  deductions Float
+  netSalary  Float
+  updatedAt  DateTime @updatedAt
+
+  employee Employee @relation(fields: [employeeId], references: [userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model WorkBlock {
+  id          String   @id @default(cuid())
+  employeeId  String
+  date        DateTime
+  startTime   String
+  endTime     String
+  category    String
+  description String
+
+  employee Employee @relation(fields: [employeeId], references: [userId])
+}
