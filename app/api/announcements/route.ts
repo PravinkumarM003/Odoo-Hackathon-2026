@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
-import { verifyAuth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const user = await verifyAuth();
+    const user = await getSession();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const announcements = await prisma.announcement.findMany({
@@ -25,7 +25,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const user = await verifyAuth();
+    const user = await getSession();
     if (!user || user.role !== "HR") return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
     const { title, content, priority } = await req.json();
