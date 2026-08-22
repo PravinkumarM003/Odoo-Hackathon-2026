@@ -126,7 +126,7 @@ export default function HRAnnouncementsPage() {
               key={ann.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
+              transition={{ }}
               className={`glass rounded-2xl p-5 border ${ann.priority === "HIGH" ? "border-red-500/20 bg-red-500/5" : "border-neutral-50/8"} card-interactive`}
             >
               <div className="flex items-start justify-between mb-2">

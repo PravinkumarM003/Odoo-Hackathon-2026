@@ -154,7 +154,7 @@ export default function LeavePage() {
                     key={leave.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
+                    transition={{ }}
                     className="flex items-start justify-between p-4 rounded-xl bg-neutral-50/3 border border-neutral-50/6 hover:border-neutral-50/10 transition-all"
                   >
                     <div className="flex items-start gap-3">

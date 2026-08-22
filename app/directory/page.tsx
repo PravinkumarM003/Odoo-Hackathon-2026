@@ -74,7 +74,7 @@ export default function DirectoryPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25, delay: i * 0.05 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
                   className="glass rounded-2xl p-5 border border-neutral-50/8 flex flex-col h-full card-interactive"
                 >
                   <div className="flex items-start justify-between mb-4">

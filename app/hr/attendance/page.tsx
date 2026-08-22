@@ -52,7 +52,7 @@ export default function HRAttendancePage() {
           { label: "Total", value: records.length, color: "text-blue-400" },
         ].map(({ label, value, color }, i) => (
           <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
+            transition={{ }}
             className="glass rounded-xl p-4 border border-neutral-50/8 text-center">
             <div className={`text-3xl font-bold ${color}`}>{value}</div>
             <div className="text-neutral-500 text-xs mt-1">{label}</div>
@@ -67,7 +67,7 @@ export default function HRAttendancePage() {
           <div className="text-center py-10 text-neutral-500">No attendance records for this date</div>
         ) : records.map((r, i) => (
           <motion.div key={r.id}
-            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
+            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ }}
             className="flex items-center justify-between p-4 rounded-xl hover:bg-neutral-50/3 transition-all border border-transparent hover:border-neutral-50/6"
           >
             <div className="flex items-center gap-3">

@@ -74,7 +74,7 @@ export default function PayrollPage() {
               key={item.label}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ }}
               whileHover={{ x: 4, scale: 1.01 }}
               className="glass rounded-xl p-5 border border-neutral-50/8 flex items-center justify-between card-interactive"
             >

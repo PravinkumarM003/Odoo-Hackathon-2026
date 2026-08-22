@@ -123,7 +123,7 @@ export default function HRLeavesPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ delay: i * 0.04 }}
+                transition={{ }}
                 className="glass rounded-2xl p-5 border border-neutral-50/8 card-shine card-interactive"
               >
                 <div className="flex items-start justify-between gap-4 flex-wrap">

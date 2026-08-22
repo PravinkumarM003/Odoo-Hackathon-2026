@@ -199,7 +199,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05, type: "spring", stiffness: 300, damping: 25 }}
+                  transition={{  type: "spring", stiffness: 300, damping: 25 }}
                   onMouseEnter={() => setHoveredNav(item.href)}
                   onMouseLeave={() => setHoveredNav(null)}
                   whileTap={{ scale: 0.97 }}

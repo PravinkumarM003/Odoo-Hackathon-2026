@@ -65,7 +65,7 @@ export default function HRPayrollPage() {
       <div className="space-y-3">
         {records.map((r, i) => (
           <motion.div key={r.id}
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ }}
             className="glass rounded-2xl p-5 border border-neutral-50/8 card-shine"
           >
             <div className="flex items-center justify-between flex-wrap gap-4">

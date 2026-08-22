@@ -74,7 +74,7 @@ export default function NotificationsPage() {
           </div>
         ) : notifications.map((n, i) => (
           <motion.div key={n.id}
-            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
+            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ }}
             onClick={() => !n.read && markOne(n.id)}
             className={`flex items-start gap-4 p-4 rounded-xl border transition-all cursor-pointer ${
               n.read

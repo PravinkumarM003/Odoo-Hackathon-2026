@@ -45,7 +45,7 @@ export default function AttendancePage() {
             key={label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
+            transition={{ }}
             className="glass rounded-xl p-4 border border-neutral-50/8 text-center"
           >
             <div className={`text-3xl font-bold ${color}`}>{value}</div>
@@ -68,7 +68,7 @@ export default function AttendancePage() {
               key={r.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.04 }}
+              transition={{ }}
               className="flex items-center justify-between p-4 rounded-xl hover:bg-neutral-50/3 transition-colors border border-transparent hover:border-neutral-50/6"
             >
               <div className="flex items-center gap-3">
