@@ -73,7 +73,7 @@ function Breadcrumbs() {
       {crumbs.map((crumb, i) => (
         <div key={crumb.href} className="flex items-center gap-1.5">
           <ChevronRight className="w-3 h-3 text-neutral-700" />
-          {crumb.isLast ? (
+          {crumb.isLast || crumb.href === "/hr" ? (
             <span className="text-white font-medium">{crumb.label}</span>
           ) : (
             <Link href={crumb.href} className="text-neutral-500 hover:text-neutral-300 transition-colors">
@@ -269,6 +269,12 @@ function AppShell({ children }: { children: React.ReactNode }) {
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-neutral-400 hover:text-white transition-colors">
             <Menu className="w-5 h-5" />
           </button>
+
+          {isDashboard && (
+            <div className="font-bold text-white text-lg tracking-tight font-['Space_Grotesk'] hidden lg:block mr-2">
+              Dayflow<span className="text-blue-400">.OS</span>
+            </div>
+          )}
 
           {/* Back button — shown when not on dashboard */}
           {!isDashboard && (
